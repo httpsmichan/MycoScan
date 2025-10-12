@@ -1,0 +1,8 @@
+<bitmap
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@drawable/social"
+    android:gravity="center"
+    android:antialias="true"
+    android:filter="true"
+    android:width="16dp"
+    android:height="16dp" />

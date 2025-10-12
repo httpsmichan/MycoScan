@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/rounded_background">
+
+    <!-- Mushroom Image -->
+    <ImageView
+        android:id="@+id/postDetailImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:clipToOutline="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/my_image"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Mushroom Type -->
+    <TextView
+        android:id="@+id/postDetailMushroomType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mushroom Type"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Category -->
+    <TextView
+        android:id="@+id/postDetailCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="category"
+        android:textSize="10sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:background="@drawable/btn_fullmap_bg"
+        android:layout_gravity="top|start"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="2dp"/>
+
+    <!-- User Info Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Posted by: "
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/postDetailUsername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Username"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/postDetailVerified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="✓ Verified"
+            android:textSize="12sp"
+            android:textColor="@android:color/holo_green_dark"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Description -->
+    <TextView
+        android:id="@+id/postDetailDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description goes here"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Location -->
+    <TextView
+        android:id="@+id/postDetailLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/btnReportPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Report"
+            android:textSize="12sp"
+            android:textColor="@android:color/holo_red_light"
+            android:gravity="center"
+            android:background="@drawable/btn_fullmap_bg"
+            android:layout_gravity="top|end"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginBottom="5dp"
+            android:elevation="2dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

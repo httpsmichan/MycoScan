@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp"
+    card_view:cardElevation="1dp"
+    android:background="@drawable/dialog_background"
+    android:scrollbars="none"
+    card_view:cardBackgroundColor="@color/white"
+    android:backgroundTint="@color/white"
+    android:fadeScrollbars="false">
+
+    <TextView
+        android:id="@+id/mushroomName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/iconText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text=">"
+        android:textStyle="bold"
+        android:gravity="end"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+</androidx.cardview.widget.CardView>

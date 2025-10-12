@@ -1,0 +1,141 @@
+{
+  "categories": [
+    {
+      "name": "Safety & Identification",
+      "image_url": "https://res.cloudinary.com/diaw4uoea/image/upload/v1758241492/safely_rzzshx.png",
+      "tips": [
+        "Caution! Never eat a wild mushroom unless you are 100% certain of its identity.",
+        "Pro tip! Carry a field guide when foraging to help identify edible and poisonous mushrooms.",
+        "Remember! Mushrooms can absorb heavy metals from soil, making some toxic even if the species is usually edible.",
+        "Did you know? The death cap mushroom is responsible for the majority of fatal mushroom poisonings worldwide.",
+        "Pro tip! Avoid mushrooms with white gills if you’re unsure—they include some of the deadliest species.",
+        "Caution! Cooking does not destroy all mushroom toxins.",
+        "Caution! Some edible mushrooms look almost identical to deadly species—always double-check.",
+        "Remember! Many mushrooms change color when bruised, which can be a key to identification.",
+        "Pro tip! Join a local mycology club to learn mushroom identification safely.",
+        "Caution! Alcohol can make some edible mushrooms toxic when consumed together.",
+        "Remember! Young mushrooms can look very different from mature ones.",
+        "Fun fact! Morel mushrooms are hollow inside, making them easy to identify.",
+        "Pro tip! Never rely on taste to test if a mushroom is poisonous—it’s a myth!",
+        "Caution! The destroying angel mushroom looks like many harmless white mushrooms.",
+        "Pro tip! Photograph mushrooms from all angles when identifying—cap, stem, and underside.",
+        "Caution! Red mushrooms with white spots are usually toxic, like Amanita muscaria.",
+        "Remember! Some mushrooms can cause delayed poisoning, with symptoms appearing days later.",
+        "Caution! Even touching some mushrooms can cause skin irritation.",
+        "Remember! The same species of mushroom can vary in color depending on environment.",
+        "Caution! Symptoms of mushroom poisoning can mimic food poisoning.",
+        "Pro tip! Learn spore print colors to distinguish between similar-looking mushrooms.",
+        "Caution! Some edible mushrooms cause allergies in sensitive individuals.",
+        "Caution! Some mushrooms can cause hallucinations or confusion if eaten.",
+        "Caution! Cooking does not neutralize amatoxins found in deadly mushrooms.",
+        "Remember! Identification apps can help, but should never replace expert guidance.",
+        "Caution! Some mushroom toxins affect the liver and kidneys without early warning signs.",
+        "Pro tip! Always cross-check mushroom ID with multiple reliable sources.",
+        "Caution! Mushroom poisoning often requires immediate medical attention."
+      ]
+    },
+    {
+      "name": "Foraging",
+      "image_url": "https://res.cloudinary.com/diaw4uoea/image/upload/v1758241491/e_f_fwreyy.png",
+      "tips": [
+        "Did you know? Truffles are underground mushrooms sniffed out by trained dogs and pigs.",
+        "Pro tip! When foraging, harvest with a knife instead of pulling to protect the underground mycelium.",
+        "Pro tip! Start with easy-to-identify mushrooms like chanterelles or morels.",
+        "Pro tip! Foraging after rain is best, as mushrooms thrive in moist conditions.",
+        "Pro tip! Use a basket, not a bag, to carry mushrooms so they don’t get crushed.",
+        "Pro tip! Always check local laws before foraging—some areas restrict mushroom picking.",
+        "Pro tip! Learn which trees associate with edible mushrooms—they often grow nearby.",
+        "Pro tip! Don’t forage near highways—mushrooms absorb pollutants.",
+        "Pro tip! Keep a mushroom journal to record your finds and improve your knowledge."
+      ]
+    },
+    {
+      "name": "Culinary",
+      "image_url": "https://res.cloudinary.com/diaw4uoea/image/upload/v1758241487/cul_hcnrzc.png",
+      "tips": [
+        "Pro tip! Store fresh mushrooms in a paper bag, not plastic, to prevent sliminess.",
+        "Fun fact! Porcini mushrooms are so prized in Italy that they’re called 'king boletes'.",
+        "Remember! Cooking enhances the umami flavor in most mushrooms.",
+        "Did you know? Button, cremini, and portobello mushrooms are all the same species at different ages.",
+        "Pro tip! Always cook wild mushrooms before eating to reduce stomach upset.",
+        "Fun fact! Some mushrooms smell fruity, while others smell like anise, almonds, or even rotten fish.",
+        "Fun fact! Mushrooms are 90% water when fresh.",
+        "Remember! Mushroom caps and stems may have very different textures.",
+        "Interesting! Matsutake mushrooms are so rare they can cost thousands per kilogram.",
+        "Fun fact! Some mushrooms taste peppery or spicy when raw.",
+        "Did you know? Mushrooms can be grown from used coffee grounds.",
+        "Did you know? The smell of truffles comes from sulfur compounds."
+      ]
+    },
+    {
+      "name": "History",
+      "image_url": "https://res.cloudinary.com/diaw4uoea/image/upload/v1758241481/hist_ugllrc.png",
+      "tips": [
+        "Fun fact! Shiitake mushrooms have been cultivated in Japan for over a thousand years.",
+        "Fun fact! Mushrooms have been found in Egyptian tombs, considered food of the gods.",
+        "Fun fact! Ancient Romans considered mushrooms a delicacy only for the elite.",
+        "Fun fact! The Mayans believed mushrooms had spiritual powers.",
+        "Fun fact! Glow-in-the-dark mushrooms were used to light paths in ancient times.",
+        "Did you know? The oldest fossilized mushroom is over 400 million years old.",
+        "Fun fact! Ancient cave art shows early humans may have depicted mushrooms.",
+        "Did you know? Mushrooms were once used to dye fabrics in natural colors.",
+        "Fun fact! King Louis XIV of France grew mushrooms in his royal caves.",
+        "Interesting! Mushrooms helped early humans preserve food and medicine."
+      ]
+    },
+    {
+      "name": "Medical",
+      "image_url": "https://res.cloudinary.com/diaw4uoea/image/upload/v1758241446/med_qnk04h.png",
+      "tips": [
+        "Did you know? Mushrooms are the only non-animal food source of vitamin D when exposed to sunlight.",
+        "Interesting! Lion’s mane mushrooms may support brain health in studies.",
+        "Interesting! Mushrooms have been used in traditional medicine for centuries.",
+        "Interesting! Cordyceps mushrooms are used in traditional Chinese medicine.",
+        "Interesting! Penicillin, the first antibiotic, comes from a fungus."
+      ]
+    },
+    {
+      "name": "Biology & Natural World",
+      "image_url": "https://res.cloudinary.com/diaw4uoea/image/upload/v1758241444/lab_ugbcwv.png",
+      "tips": [
+        "Did you know? Mushrooms are more closely related to animals than to plants.",
+        "Fun fact! The largest living organism on Earth is a honey fungus in Oregon, spanning over 2,000 acres.",
+        "Intereasting! Some mushrooms glow in the dark due to bioluminescence.",
+        "Fun fact! Mushrooms breathe oxygen and exhale carbon dioxide, just like humans.",
+        "Interesting! Some mushrooms create tiny 'wind currents' to help spread their spores.",
+        "Fun fact! Mushrooms can break down oil spills and pesticides in soil, a process called mycoremediation.",
+        "Did you know? A single mushroom can release billions of spores into the air.",
+        "Did you know? Mushrooms helped create Earth’s first soil by breaking down rocks.",
+        "Interesting! Some fungi can infect insects, turning them into 'zombie hosts'.",
+        "Did you know? Mushrooms can communicate chemically through underground networks.",
+        "Fun fact! The 'fairy rings' seen in grass are caused by expanding underground mycelium.",
+        "Interesting! Some mushroom spores can travel hundreds of miles on air currents.",
+        "Did you know? Oyster mushrooms can eat and digest plastic.",
+        "Did you know? Puffball mushrooms release a 'smoke' of spores when pressed.",
+        "Did you know? Some fungi can survive inside volcanic environments.",
+        "Did you know? The oldest fossilized mushroom is over 400 million years old.",
+        "Fun fact! Some mushrooms grow within hours, appearing almost overnight.",
+        "Interesting! Mycorrhizal fungi form partnerships with trees, helping them absorb nutrients.",
+        "Did you know? More than 50 species of mushrooms are bioluminescent.",
+        "Did you know? Some fungi live inside plants, helping them resist pests.",
+        "Did you know? Mushrooms account for about 14,000 known species, but scientists believe there are millions more.",
+        "Fun fact! Mushroom cell walls contain chitin, the same material as insect shells.",
+        "Did you know? Mushroom spores are so tiny that trillions fit on a pinhead.",
+        "Fun fact! Some fungi can live entirely underwater.",
+        "Did you know? Some mushrooms are used to make biodegradable packaging.",
+        "Did you know? Mushrooms don’t need sunlight to grow, only organic matter.",
+        "Fun fact! Shiitake mushrooms naturally grow on hardwood logs.",
+        "Fun fact! Some fungi only appear once every several years.",
+        "Interesting! Mycelium networks have been called the 'internet of the forest'."
+      ]
+    },
+    {
+      "name": "Anything Random",
+      "image_url": "https://res.cloudinary.com/diaw4uoea/image/upload/v1758239906/fef.jpg_mc8bdb.png",
+      "tips": [
+        "Interesting! Some mushrooms can survive in space conditions tested by scientists.",
+        "Fun fact! In some folklore, mushrooms were believed to be portals to fairy realms."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "achievements": [
+    {
+      "id": "exploration_first_find",
+      "category": "Exploration",
+      "title": "First Find",
+      "description": "Upload your first mushroom post.",
+      "badgeImage": ""
+    },
+    {
+      "id": "exploration_explorer",
+      "category": "Exploration",
+      "title": "Explorer",
+      "description": "Share posts from 5 different geolocations.",
+      "badgeImage": ""
+    },
+    {
+      "id": "exploration_daily_forager",
+      "category": "Exploration",
+      "title": "Daily Forager",
+      "description": "Upload at least 1 mushroom post for 7 consecutive days.",
+      "badgeImage": ""
+    },
+    {
+      "id": "knowledge_first_identification",
+      "category": "Knowledge",
+      "title": "First Identification",
+      "description": "Successfully identify a mushroom with the camera.",
+      "badgeImage": ""
+    },
+    {
+      "id": "knowledge_apprentice_mycologist",
+      "category": "Knowledge",
+      "title": "Apprentice Mycologist",
+      "description": "Identify 20 mushrooms.",
+      "badgeImage": ""
+    },
+    {
+      "id": "knowledge_accuracy_master",
+      "category": "Knowledge",
+      "title": "Accuracy Master",
+      "description": "Get 10 identifications verified by a mycologist.",
+      "badgeImage": ""
+    },
+    {
+      "id": "community_first_comment",
+      "category": "Community",
+      "title": "First Comment",
+      "description": "Comment on someone else’s post.",
+      "badgeImage": ""
+    },
+    {
+      "id": "community_helpful_voice",
+      "category": "Community",
+      "title": "Helpful Voice",
+      "description": "Leave 20 comments.",
+      "badgeImage": ""
+    },
+    {
+      "id": "community_builder",
+      "category": "Community",
+      "title": "Community Builder",
+      "description": "Reach 10 upvotes on your post.",
+      "badgeImage": ""
+    },
+    {
+      "id": "trust_guardian",
+      "category": "Trust",
+      "title": "Guardian",
+      "description": "Report your first inappropriate or misleading post.",
+      "badgeImage": ""
+    },
+    {
+      "id": "trust_trustworthy_forager",
+      "category": "Trust",
+      "title": "Trustworthy Forager",
+      "description": "Have 10 posts marked as Verified.",
+      "badgeImage": ""
+    },
+    {
+      "id": "milestone_weekly_forager",
+      "category": "Milestones",
+      "title": "Weekly Forager",
+      "description": "Use the app every day for 7 days.",
+      "badgeImage": ""
+    },
+    {
+      "id": "milestone_monthly_explorer",
+      "category": "Milestones",
+      "title": "Monthly Explorer",
+      "description": "Stay active for 30 days.",
+      "badgeImage": ""
+    },
+    {
+      "id": "special_popular_post",
+      "category": "Special",
+      "title": "Popular Post",
+      "description": "A post reaches 100+ upvotes.",
+      "points": 100,
+      "badgeImage": ""
+    },
+    {
+      "id": "special_top_explorer",
+      "category": "Special",
+      "title": "Top Explorer",
+      "description": "Upload 100 posts total.",
+      "badgeImage": ""
+    },
+    {
+      "id": "special_verified_ally",
+      "category": "Special",
+      "title": "Verified Ally",
+      "description": "A verified mycologist follows or interacts with you.",
+      "points": 90,
+      "badgeImage": ""
+    }
+  ]
+}

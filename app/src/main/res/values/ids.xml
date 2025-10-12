@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="textMushroomType" type="id" />
+    <item name="textPostedBy" type="id" />
+    <item name="textDescription" type="id" />
+    <item name="btnDecline" type="id" />
+</resources>

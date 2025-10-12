@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@color/BG"
+    android:scrollbars="none"
+    android:fadeScrollbars="false">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#ffffff"
+            android:padding="30dp"
+            android:layout_marginBottom="20dp"
+            android:elevation="5dp">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mushroom Identification: A Comprehensive Guide"
+                android:textSize="26sp"
+                android:textColor="#4b8b3b"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/subtitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Learning the Key Features for Both Safe and Dangerous Species"
+                android:textSize="18sp"
+                android:textColor="#8b4513"
+                android:layout_marginTop="10dp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <!-- Warning -->
+        <TextView
+            android:id="@+id/warningTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f8d7da"
+            android:textColor="#721c24"
+            android:padding="20dp"
+            android:textSize="16sp"
+            android:text="DANGER: YOU CANNOT TRUST SIMPLE RULES. Many deadly mushrooms look almost identical to edible ones. Only use a field guide and expert guidance. When in doubt, throw it out."
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Section Title -->
+        <TextView
+            android:id="@+id/sectionTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Key Identification Features for All Mushrooms"
+            android:textSize="22sp"
+            android:textColor="#4b8b3b"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:textStyle="bold"/>
+
+        <!-- Info Items: Cap & Gills/Pores -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#f9fff9"
+            android:padding="20dp"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Cap &amp; Gills/Pores"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Gills: Look at color, attachment, and spacing. Example: Oyster Mushroom has white gills extending down stem; Death Cap has free white gills."
+                android:textSize="16sp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Pores: Some mushrooms like King Bolete have sponge-like undersides. Some pore-bearing mushrooms are poisonous."
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- Info Items: Stem, Ring, Volva -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#f9fff9"
+            android:padding="20dp"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. Stem, Ring &amp; Volva"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Stem: Note shape, texture, and color."
+                android:textSize="16sp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Ring (Annulus): Skirt-like ring. Example: Shiitake has none; Death Cap has it."
+                android:textSize="16sp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Volva: Cup at the base. Critical feature of Amanita. Dig entire mushroom to check."
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- Info Items: Spore Print -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#f9fff9"
+            android:padding="20dp"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. Spore Print"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Edible Meadow Mushroom: Chocolate brown spore print."
+                android:textSize="16sp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Edible Morel: Light yellow spore print."
+                android:textSize="16sp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Poisonous Destroying Angel: White spore print. Key red flag."
+                android:textSize="16sp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• How to get a print: Place cap gills-down on paper, cover with bowl, wait a few hours."
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- Red Flags -->
+        <TextView
+            android:id="@+id/redFlagsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Red Flags to Always Watch For: \n• Death Cap Trio: White gills + ring + volva = likely deadly Amanita. Do not eat.\n• Any mushroom with white gills and white spore print: Avoid unless expert.\n• No-go categories: All small brown mushrooms (LBMs) and mushrooms that bruise blue."
+            android:textSize="16sp"
+            android:textColor="#721c24"
+            android:background="#f8d7da"
+            android:padding="20dp"
+            android:layout_marginBottom="20dp"/>
+    </LinearLayout>
+</ScrollView>

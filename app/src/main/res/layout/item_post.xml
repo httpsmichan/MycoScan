@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@drawable/top_image"
+    android:layout_marginBottom="8dp"
+    android:elevation="2dp">
+
+    <!-- Top row: username + timestamp on left, verified on right -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Left side: username and timestamp -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvDetailUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="2dp"/>
+
+                <ImageView
+                    android:id="@+id/imageVerifiedBadge"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="3dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_verified_badge"
+                    android:contentDescription="Verified Badge"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvTimeStamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 hours ago"
+                android:textColor="@color/black"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvVerifiedStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:visibility="gone" />
+
+        <!-- Right side: verified status -->
+        <ImageView
+            android:id="@+id/ivVerificationBadge"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:visibility="gone"
+            android:contentDescription="Verification Status" />
+
+        <ImageView
+            android:id="@+id/menuOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_more_vert"
+            android:contentDescription="Options"
+            android:padding="8dp" />
+    </LinearLayout>
+
+    <!-- Post image -->
+    <ImageView
+        android:id="@+id/ivPostImage"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/top_image"
+        android:clipToOutline="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Mushroom type + Edibility -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvMushroomType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mushroom Type"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:padding="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tvEdibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edible/Not Edible"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:padding="2dp"
+            android:textColor="#FF5722"
+            android:layout_marginTop="4dp"/>
+    </LinearLayout>
+
+    <!-- Location with icon -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="6dp">
+
+        <ImageView
+            android:id="@+id/ivLocationIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_location"
+            android:contentDescription="Location" />
+
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Location here..."
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_marginStart="6dp"/>
+    </LinearLayout>
+
+    <!-- Up & Down buttons with icons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="-15dp">
+
+        <ImageView
+            android:id="@+id/ivUpIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_up"
+            android:contentDescription="Up Vote"
+            android:layout_marginEnd="12dp"/>
+
+        <ImageView
+            android:id="@+id/ivDownIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_down"
+            android:contentDescription="Down Vote"/>
+    </LinearLayout>
+
+</LinearLayout>

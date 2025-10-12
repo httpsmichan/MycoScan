@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollForm"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BG"
+    android:padding="10dp"
+    android:scrollbars="none"
+    android:fadeScrollbars="false">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <!-- Header row -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginBottom="10dp">
+
+            <!-- Back clickable text -->
+            <TextView
+                android:id="@+id/tvBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:textSize="13sp"
+                android:textColor="@android:color/holo_blue_dark"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <!-- Centered header -->
+            <TextView
+                android:id="@+id/postsHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Verification Process"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+        <!-- Step 1: Affiliation -->
+        <LinearLayout
+            android:id="@+id/containerAffiliation"
+            android:orientation="vertical"
+            android:background="@drawable/dialog_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Are you affiliated with an institution?"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:paddingBottom="8dp"/>
+
+            <RadioGroup
+                android:id="@+id/radioAffiliation"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/radioYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="Yes"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="14sp"/>
+
+                <RadioButton
+                    android:id="@+id/radioNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="14sp"/>
+            </RadioGroup>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="1dp"
+                android:layout_marginBottom="10dp"
+                card_view:cardBackgroundColor="@android:color/white">
+
+                <EditText
+                    android:id="@+id/editInstitution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:padding="12dp"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    android:hint="Enter Institution Name"
+                    android:textSize="12sp"/>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <!-- Step 2: Upload TOR -->
+        <LinearLayout
+            android:id="@+id/containerTOR"
+            android:orientation="vertical"
+            android:background="@drawable/dialog_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textUploadTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Upload your TOR"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:paddingBottom="8dp"/>
+
+            <RadioGroup
+                android:id="@+id/radioUploadOption"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/radioImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="Image"/>
+                <RadioButton
+                    android:id="@+id/radioFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="PDF (recommended)"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/btnChooseImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_fullmap_bg"
+                android:gravity="center"
+                android:elevation="2dp"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:text="Choose Image"/>
+
+            <TextView
+                android:id="@+id/btnChooseFile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_fullmap_bg"
+                android:gravity="center"
+                android:elevation="2dp"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:text="Upload PDF File"/>
+
+            <TextView
+                android:id="@+id/textFileName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:padding="8dp"/>
+        </LinearLayout>
+
+        <!-- Step 3: Gmail -->
+        <LinearLayout
+            android:id="@+id/containerGmail"
+            android:orientation="vertical"
+            android:background="@drawable/dialog_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:visibility="gone"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter your Gmail"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:paddingBottom="8dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="12dp"
+                card_view:cardElevation="1dp"
+                android:layout_marginBottom="10dp"
+                card_view:cardBackgroundColor="@android:color/white">
+
+                <EditText
+                    android:id="@+id/editGmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:padding="12dp"
+                    android:textColor="@color/black"
+                    android:hint="user...@gmail.com"
+                    android:inputType="textEmailAddress"
+                    android:textSize="12sp"/>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <!-- Step 4: Submit -->
+        <LinearLayout
+            android:id="@+id/containerSubmit"
+            android:orientation="vertical"
+            android:background="@drawable/dialog_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="30dp"
+                android:background="@drawable/bg_button"
+                android:text="Submit Application"
+                android:textSize="13sp"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
+
+        <!-- Already submitted message -->
+        <TextView
+            android:id="@+id/textAlreadySubmitted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="You have already submitted your application. Please wait for admin’s approval. We will notify you via email."
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_red_dark"
+            android:visibility="gone"
+            android:padding="16dp"
+            android:gravity="center"/>
+    </LinearLayout>
+</ScrollView>

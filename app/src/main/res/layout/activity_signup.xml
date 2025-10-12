@@ -1,0 +1,159 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@color/BG">
+
+    <!-- Spacer to push form container to center -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Form Container (Centered Vertically) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:elevation="2dp"
+        android:background="@drawable/trans_bg"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Account"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:textColor="#333333"/>
+
+        <!-- Username Field -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="12dp"
+            android:layout_marginBottom="10dp"
+            card_view:cardBackgroundColor="@android:color/white">
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="12dp"
+                android:hint="Username"
+                android:textSize="15sp"
+                android:inputType="textPersonName"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Full Name Field -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="12dp"
+            android:layout_marginBottom="10dp"
+            card_view:cardBackgroundColor="@android:color/white">
+
+            <EditText
+                android:id="@+id/etFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="12dp"
+                android:hint="Full Name"
+                android:textSize="15sp"
+                android:inputType="textPersonName"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Email Field -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="12dp"
+            android:layout_marginBottom="10dp"
+            card_view:cardBackgroundColor="@android:color/white">
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="12dp"
+                android:hint="Email"
+                android:textSize="15sp"
+                android:inputType="textEmailAddress"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Password Field -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="12dp"
+            android:layout_marginBottom="10dp"
+            card_view:cardBackgroundColor="@android:color/white">
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="12dp"
+                android:hint="Password"
+                android:textSize="15sp"
+                android:inputType="textPassword"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Confirm Password Field -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="12dp"
+            android:layout_marginBottom="20dp"
+            card_view:cardBackgroundColor="@android:color/white">
+
+            <EditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="12dp"
+                android:hint="Confirm Password"
+                android:textSize="15sp"
+                android:inputType="textPassword"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCreateAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:background="@drawable/bg_button"
+            android:text="Sign Up"
+            android:textSize="13sp"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGoToLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="30dp"
+            android:background="@drawable/btn_fullmap_bg"
+            android:text="Already have an account? Login"
+            android:textSize="13sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <!-- Spacer to push form container to center -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

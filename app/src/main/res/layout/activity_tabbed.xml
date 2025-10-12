@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:background="@color/BG"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TabbedActivity">
+
+    <!-- Main content (your existing layout) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/BG">
+
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigationCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bottomNavigationCard"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/BG"
+            app:cardCornerRadius="0dp">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu="@menu/bottom_nav_menu"
+                android:background="@color/white"
+                app:itemIconTint="@color/bottom_nav_color_selector"
+                app:itemTextColor="@color/bottom_nav_color_selector"
+                app:itemRippleColor="@null"
+                app:itemActiveIndicatorStyle="@null"
+                app:itemBackground="@null"/>
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Drawer with RecyclerView -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="280dp"
+        android:background="@color/BG"
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Header container -->
+            <FrameLayout
+                android:id="@+id/drawerHeaderContainer"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@color/white">
+
+                <!-- Main header image -->
+                <ImageView
+                    android:id="@+id/drawerHeaderImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FAF8EC"
+                    android:scaleType="centerCrop"/>
+
+                <!-- Additional image overlay -->
+                <ImageView
+                    android:id="@+id/drawerHeaderOverlay"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center | left"
+                    android:scaleType="centerCrop"
+                    android:layout_margin="8dp"
+                    android:clipToOutline="true"
+                    android:elevation="4dp"
+                    android:background="@drawable/circle_background"
+                    android:src="@drawable/mycoscan_logo"/>
+
+                <TextView
+                    android:id="@+id/headerTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MycoScan: Identify &amp; Learn Mushrooms"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="bottom | left"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/black"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/dvo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Davao Mushrooms"
+                android:textSize="13sp"
+                android:layout_gravity="start | left"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="3dp"
+                android:textColor="@color/black"/>
+
+            <!-- List of mushrooms -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mushroomRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:scrollbars="none"
+                android:fadeScrollbars="false"/>
+        </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
+
+</androidx.drawerlayout.widget.DrawerLayout>

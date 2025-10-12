@@ -1,0 +1,170 @@
+<resources>
+    <string name="app_name">MycoScan</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="favorites">Scan</string>
+    <string name="profile">Upload</string>
+    <string name="settings">Profile</string>
+    <string name="camera_view">Camera View</string>
+    <string name="toggle_camera">Toggle Camera</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="logout">Logout</string>
+    <string name="about_app">About App</string>
+    <string name="privacy_settings">Privacy Settings</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="user_example_com">user@example.com</string>
+    <string name="account">Account</string>
+    <string name="explore">Explore</string>
+    <string name="notice">Important Notice: This identification is not guaranteed. Do not consume mushrooms based on this result.</string>
+    <string name="prediction_will_appear_here">Prediction will appear here</string>
+    <string name="remember"> ⚠️ Remember: Always consult an expert before eating wild mushrooms.</string>
+    <string name="edibility">edibility</string>
+    <string name="profile_icon" />
+    <string name="mushroom_identification_a_comprehensive_guide">Mushroom Identification: A Comprehensive Guide</string>
+    <string name="learning_the_key_features_for_both_safe_and_dangerous_species">Learning the Key Features for Both Safe and Dangerous Species</string>
+    <string name="danger_you_cannot_trust_simple_rules_nmany_deadly_mushrooms_look_almost_identical_to_edible_ones_the_only_safe_way_to_identify_a_wild_mushroom_for_consumption_is_with_a_field_guide_and_the_guidance_of_an_expert_when_in_doubt_throw_it_out">DANGER: YOU CANNOT TRUST SIMPLE RULES.\nMany deadly mushrooms look almost identical to edible ones. The only safe way to identify a wild mushroom for consumption is with a field guide and the guidance of an expert. When in doubt, throw it out!</string>
+    <string name="key_identification_features_for_all_mushrooms">Key Identification Features for All Mushrooms</string>
+    <string name="_1_cap_amp_gills_pores_n_gills_look_at_the_color_attachment_and_spacing_example_oyster_mushroom_has_white_gills_extending_down_the_stem_death_cap_has_free_white_gills_n_pores_some_mushrooms_e_g_king_bolete_have_sponge_like_undersides_still_some_pore_bearing_mushrooms_are_poisonous"><![CDATA[1. Cap & Gills/Pores\n- Gills: Look at the color, attachment, and spacing. Example: Oyster Mushroom has white gills extending down the stem, Death Cap has free white gills.\n- Pores: Some mushrooms (e.g., King Bolete) have sponge-like undersides. Still, some pore-bearing mushrooms are poisonous.]]></string>
+    <string name="_2_stem_ring_amp_volva_n_stem_note_shape_texture_and_color_n_ring_annulus_skirt_like_ring_on_the_stem_example_shiitake_has_none_death_cap_has_it_n_volva_cup_at_the_stem_base_critical_feature_of_amanita_dig_entire_mushroom_to_check"><![CDATA[2. Stem, Ring, & Volva\n- Stem: Note shape, texture, and color.\n- Ring (Annulus): Skirt-like ring on the stem. Example: Shiitake has none, Death Cap has it.\n- Volva: Cup at the stem base. Critical feature of Amanita. Dig entire mushroom to check.]]></string>
+    <string name="_3_spore_print_n_spore_print_color_is_key_to_distinguishing_edible_vs_deadly_n_example_meadow_mushroom_chocolate_brown_morel_light_yellow_destroying_angel_white_n_how_place_cap_gills_down_on_paper_cover_with_bowl_wait_a_few_hours">3. Spore Print\n- Spore print color is key to distinguishing edible vs deadly.\n- Example: Meadow Mushroom: chocolate brown; Morel: light yellow; Destroying Angel: white.\n- How: Place cap gills-down on paper, cover with bowl, wait a few hours.</string>
+    <string name="red_flags_to_always_watch_for_n_death_cap_trio_white_gills_ring_volva_likely_deadly_amanita_do_not_eat_n_any_mushroom_with_white_gills_and_a_white_spore_print_avoid_unless_expert_n_no_go_categories_all_small_brown_mushrooms_lbms_and_mushrooms_that_bruise_blue">Red Flags to Always Watch For:\n- Death Cap Trio: White Gills + Ring + Volva. Likely deadly Amanita. Do not eat.\n- Any Mushroom with White Gills and a White Spore Print. Avoid unless expert.\n- No-Go Categories: All small brown mushrooms (LBMs) and mushrooms that bruise blue.</string>
+    <string name="flash_toggle" />
+    <string name="last_photo" />
+    <string name="scanning_tips">
+    1. Consider the mushroom angle; most mushrooms look similar, so capture the correct side.\n
+    2. Make sure the mushroom is fully visible in the frame.\n
+    3. Ensure good lighting to capture details.
+</string>
+    <string name="pick_from_gallery" />
+
+    <string name="unknown">⚠️ Error: The scanned mushroom species is unknown. No reliable information is available.</string>
+    <string-array name="filter_options">
+        <item>All</item>
+        <item>Verified</item>
+        <item>Declined</item>
+    </string-array>
+
+    <string name="terms_text"><![CDATA[
+
+Last Updated: 5th of October 2025\n\n
+
+Welcome to MycoScan. By downloading, installing, or using this mobile application, you agree to comply with and be bound by the following Terms and Conditions. Please read them carefully before using the App.\n\n
+
+If you do not agree with these Terms, you must not use or access the App.\n\n
+
+
+1. PURPOSE OF THE APP\n\n
+
+MycoScan is an AI-powered mushroom identification system designed to:\n
+• Identify and classify mushrooms in real time through image recognition.\n
+• Provide users with details such as species name, edibility, nutritional value, toxicity level, habitat information.\n
+• Facilitate a community-driven documentation system where users can submit photographs, descriptions, and GPS-based locations of mushrooms.\n
+• Enable expert mycologists to review and verify unrecognized or new species.\n
+• Offer educational content about edible, inedible, and poisonous mushrooms, including foraging tips and user progress tracking.\n
+• Provide a mushroom encyclopedia focused on species found in the Davao Region.\n\n
+
+
+2. ELIGIBILITY\n\n
+
+The App is accessible to users of all ages for educational and community engagement purposes.\n\n
+
+
+3. USER ACCOUNTS\n\n
+
+• Users may create a standard account or a mycologist (expert) account.\n
+• Mycologist accounts require additional verification and may optionally submit an official Terms of Reference (TOR) or equivalent documentation for identity validation. Submission of such documentation is voluntary.\n
+• You are responsible for maintaining the confidentiality of your account and for all activities under your login credentials.\n\n
+
+
+4. PERMISSIONS AND DEVICE ACCESS\n\n
+
+To function properly, MycoScan may request access to:\n
+• Camera – for capturing mushroom images for identification.\n
+• Storage – for fetching and saving images.\n
+• Location – for logging and mapping mushroom foraging areas.\n
+• Internet Connection – for AI processing, data synchronization, and accessing the encyclopedia.\n
+• Device Information – such as device name and Android version, to optimize app performance and compatibility.\n\n
+
+Disabling certain permissions may limit app functionality.\n\n
+
+
+5. USER-GENERATED CONTENT\n\n
+
+By submitting content (images, descriptions, GPS data, notes, etc.), you agree that:\n
+• You own or have permission to share the content.\n
+• You grant MycoScan a non-exclusive, royalty-free license to use, display, and share your content within the app for educational and research purposes.\n
+• Submitted content may undergo AI validation and mycologist review for accuracy.\n
+• Verified submissions may be displayed publicly along with your display name and location.\n\n
+
+We reserve the right to remove any content that violates these Terms or our community guidelines.\n\n
+
+
+6. PRIVACY AND DATA USE\n\n
+
+Your privacy is important to us. The App collects and processes limited personal and device data, including:\n
+• Contact information (such as name or email, if provided).\n
+• GPS-based location data (for mapping foraged mushrooms).\n
+• Device name and Android version (for compatibility).\n\n
+
+This data is used solely to improve system accuracy, enable community features, and enhance user experience. We do not sell or share personal information with unauthorized third parties.\n\n
+
+
+7. VERIFICATION AND IDENTIFICATION\n\n
+
+Verification for mycologists or contributors is optional. If you choose to submit an official document (e.g., TOR), it will be stored securely and used only for account validation purposes.\n\n
+
+
+8. EDUCATIONAL DISCLAIMER\n\n
+
+The App is intended for educational and informational purposes only. While the AI model and mycologist reviews strive for accuracy:\n
+• Identification results are not guaranteed.\n
+• Users must exercise caution before consuming any foraged mushroom.\n
+• The developers are not liable for any injury, poisoning, or adverse effects resulting from the use or misinterpretation of information provided by the App.\n\n
+
+Always consult a professional before consuming wild mushrooms.\n\n
+
+
+9. COMMUNITY AND CONDUCT\n\n
+
+Users agree to:\n
+• Submit only genuine and relevant mushroom data.\n
+• Refrain from uploading offensive, misleading, or copyrighted material.\n
+• Respect other community members and experts.\n\n
+
+Violation of these terms may result in content removal or account suspension.\n\n
+
+
+10. INTELLECTUAL PROPERTY\n\n
+
+All App content, including AI models, data structures, educational materials, and design elements, are the intellectual property of MycoScan and its developers. Unauthorized reproduction or modification is prohibited.\n\n
+
+
+11. LIMITATION OF LIABILITY\n\n
+
+MycoScan and its developers shall not be held responsible for:\n
+• Misidentification or misclassification of mushrooms.\n
+• Any direct or indirect damages arising from app use.\n
+• Technical issues, including loss of data or interrupted services.\n\n
+
+Use of the App is at your own risk.\n\n
+
+
+12. UPDATES AND MODIFICATIONS\n\n
+
+We may update these Terms periodically. Continued use of the App after updates means you accept the revised Terms.\n\n
+
+
+13. CONTACT INFORMATION\n\n
+
+For questions or feedback regarding these Terms, please contact us at:\n
+Email: contactmycoscan@gmail.com\n\n\n
+
+This Privacy Policy explains how MycoScan collects, uses, and protects your information when you use our mobile application and related services.\n\n
+
+By using the App, you consent to the collection and use of your data as described in this policy. If you do not agree, please do not install or use the App.\n\n
+]]></string>
+
+    <string name="accept_continue">Accept and Continue</string>
+
+
+</resources>

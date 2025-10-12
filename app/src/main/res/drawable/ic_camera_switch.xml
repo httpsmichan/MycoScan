@@ -1,0 +1,26 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Dark circle background -->
+    <path
+        android:fillColor="#80000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:pathData="M24,2
+                          A22,22 0 1,1 23.99,2
+                          Z"/>
+
+    <!-- Scaled icon in center -->
+    <group
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:translateX="8"
+        android:translateY="8">
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M16,7H15V5l-3,3 3,3V9h1c2.21,0 4,1.79 4,4 0,0.34 -0.04,0.67 -0.12,0.98l1.52,1.52C20.79,14.74 21,13.89 21,13c0,-2.76 -2.24,-5 -5,-5zM8,17H9v2l3,-3 -3,-3v2H8c-2.21,0 -4,-1.79 -4,-4 0,-0.34 0.04,-0.67 0.12,-0.98L2.6,8.5C2.21,9.26 2,10.11 2,11c0,2.76 2.24,5 5,5z"/>
+    </group>
+</vector>

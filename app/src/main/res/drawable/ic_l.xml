@@ -1,0 +1,11 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="30dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- vertical bold line like lowercase l -->
+    <path
+        android:fillColor="@android:color/holo_green_dark"
+        android:pathData="M10,4h4v16h-4z"/>
+</vector>

@@ -1,0 +1,297 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/tools"
+    android:background="@color/BG"
+    android:padding="13dp"
+    android:scrollbars="none"
+    android:fadeScrollbars="false"
+    app:ignore="NamespaceTypo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        android:dividerPadding="12dp"
+        android:background="@color/BG">
+
+        <!-- Header row -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginLeft="-10dp"
+            android:layout_marginBottom="10dp">
+
+            <!-- Centered header -->
+            <TextView
+                android:id="@+id/postsHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mushroom Observation"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/mushroomType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:text="Mushroom Name / Type"
+            android:drawableStart="@drawable/ic_l"
+            android:gravity="center_vertical"
+            android:textSize="14sp"/>
+
+        <!-- Mushroom Type -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="12dp"
+            card_view:cardElevation="1dp"
+            android:layout_marginBottom="10dp"
+            card_view:cardBackgroundColor="@android:color/white">
+
+            <EditText
+                android:id="@+id/etMushroomType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:hint="Scientific or Local Name"
+                android:textSize="12sp"/>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/classificationStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:text="Classification Status"
+            android:drawableStart="@drawable/ic_l"
+            android:gravity="center_vertical"
+            android:textSize="14sp"/>
+
+        <!-- Category Spinner -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="12dp"
+            card_view:cardElevation="1dp"
+            android:layout_marginBottom="10dp"
+            card_view:cardBackgroundColor="@android:color/white">
+
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="1dp"/>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/uploadImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Attach Image"
+            android:textColor="@color/black"
+            android:drawableStart="@drawable/ic_l"
+            android:gravity="center_vertical"
+            android:textSize="14sp"/>
+
+
+        <!-- Media Upload -->
+        <TextView
+            android:id="@+id/btnPickMedia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Attach Image"
+            android:textColor="@color/black"
+            android:background="@drawable/btn_fullmap_bg"
+            android:gravity="center"
+            android:elevation="2dp"
+            android:layout_marginBottom="10dp"/>
+
+        <ImageView
+            android:id="@+id/imagePreview"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="12dp"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:visibility="gone"
+            android:clipToOutline="true"
+            android:background="@drawable/bg_image_borders"
+            android:contentDescription="Preview" />
+
+        <TextView
+            android:id="@+id/getLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Fetch Location"
+            android:textColor="@color/black"
+            android:drawableStart="@drawable/ic_l"
+            android:gravity="center_vertical"
+            android:textSize="14sp"/>
+
+        <!-- Location Container -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="12dp"
+            card_view:cardElevation="1dp"
+            android:layout_marginBottom="10dp"
+            card_view:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:id="@+id/locationContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/btnGetLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_fullmap_bg"
+                    android:gravity="center"
+                    android:elevation="2dp"
+                    android:textColor="@color/black"
+                    android:text="Get Current Location"/>
+
+                <org.osmdroid.views.MapView
+                    android:id="@+id/mapPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"/>
+
+                <FrameLayout
+                    android:id="@+id/geoContainer"
+                    android:layout_width="match_parent"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/my_image"
+                    android:clipToOutline="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="150dp"
+                    android:visibility="gone">
+
+                    <org.osmdroid.views.MapView
+                        android:id="@+id/miniMapView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/btnOpenFullMap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View Full Map"
+                        android:textSize="10sp"
+                        android:textColor="@android:color/black"
+                        android:gravity="center"
+                        android:background="@drawable/btn_fullmap_bg"
+                        android:layout_gravity="top|end"
+                        android:layout_margin="8dp"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:elevation="1dp"/>
+
+                </FrameLayout>
+                    <LinearLayout
+                        android:id="@+id/coordinates"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tvLatitude"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Latitude: Unknown"
+                            android:textSize="8sp"
+                            android:padding="2dp"
+                            android:layout_marginLeft="50dp"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/tvLongitude"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Longitude: Unknown"
+                            android:textSize="8sp"
+                            android:padding="2dp"
+                            android:layout_marginRight="50dp"
+                            android:gravity="center"/>
+                    </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/detailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Description"
+            android:textColor="@color/black"
+            android:drawableStart="@drawable/ic_l"
+            android:gravity="center_vertical"
+            android:textSize="14sp"/>
+
+
+        <!-- Description -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="12dp"
+            card_view:cardElevation="1dp"
+            android:layout_marginBottom="10dp"
+            card_view:cardBackgroundColor="@android:color/white">
+
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@null"
+                android:padding="12dp"
+                android:gravity="top"
+                android:hint="What’s your observation?"
+                android:textColor="@color/black"
+                android:inputType="textMultiLine"
+                android:textSize="12sp"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="30dp"
+            android:background="@drawable/bg_button"
+            android:text="Submit Observation"
+            android:textSize="13sp"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+</ScrollView>

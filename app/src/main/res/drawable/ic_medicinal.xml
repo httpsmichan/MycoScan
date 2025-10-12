@@ -1,0 +1,22 @@
+<!-- res/drawable/ic_medicinal.xml -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Left half of the pill (purple) -->
+    <path
+        android:fillColor="#FF6200EE"
+        android:pathData="M2,12c0,-2.21 1.79,-4 4,-4l6,0l0,8l-6,0c-2.21,0 -4,-1.79 -4,-4z" />
+
+    <!-- Right half of the pill (green) -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M12,8l6,0c2.21,0 4,1.79 4,4s-1.79,4 -4,4l-6,0z" />
+
+    <!-- Divider line -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12,8v8" />
+</vector>
