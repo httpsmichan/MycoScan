@@ -7,21 +7,34 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ResultActivity extends AppCompatActivity {
 
     private static final String TAG = "ResultActivity";
 
+    private FirebaseFirestore db;
     private TextView title1;
+    private String postAuthorId;
+    private String currentUserId;
+    private View rootView;
     private TextView title2, unknown, reminder, headerDisclaimer, shareCommunity;
     private LinearLayout charLayout;
 
@@ -56,6 +69,7 @@ public class ResultActivity extends AppCompatActivity {
     private LinearLayout longTermContainer;
     private LinearLayout factsContainer;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +113,69 @@ public class ResultActivity extends AppCompatActivity {
         reminder = findViewById(R.id.reminder);
         headerDisclaimer = findViewById(R.id.headerDisclaimer);
         shareCommunity = findViewById(R.id.shareCommunity);
+        rootView = findViewById(android.R.id.content);
 
+        ImageButton fab = findViewById(R.id.fab);
+
+        fab.setOnTouchListener(new View.OnTouchListener() {
+            private float dX, dY;
+            private int lastAction;
+            private int screenWidth, screenHeight;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                String TAG = "FAB_TOUCH_DEBUG";
+
+                if (screenWidth == 0 || screenHeight == 0) {
+                    screenWidth = ((View) view.getParent()).getWidth();
+                    screenHeight = ((View) view.getParent()).getHeight();
+                    Log.d(TAG, "Screen size detected: width=" + screenWidth + ", height=" + screenHeight);
+                }
+
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        dX = view.getX() - event.getRawX();
+                        dY = view.getY() - event.getRawY();
+                        lastAction = MotionEvent.ACTION_DOWN;
+                        Log.d(TAG, "ACTION_DOWN at (" + event.getRawX() + ", " + event.getRawY() + ")");
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        float newX = event.getRawX() + dX;
+                        float newY = event.getRawY() + dY;
+
+                        newY = Math.max(0, Math.min(newY, screenHeight - view.getHeight()));
+
+                        view.setX(newX);
+                        view.setY(newY);
+                        lastAction = MotionEvent.ACTION_MOVE;
+                        Log.d(TAG, "ACTION_MOVE to (" + newX + ", " + newY + ")");
+                        return true;
+
+                    case MotionEvent.ACTION_UP:
+                        Log.d(TAG, "ACTION_UP detected. Last action: " + lastAction);
+
+                        if (lastAction == MotionEvent.ACTION_DOWN) {
+                            Log.d(TAG, "FAB clicked – calling showNoteBottomSheet()");
+                            showNoteBottomSheet();
+                        } else {
+                            float middle = screenWidth / 2f;
+                            float targetX = (view.getX() < middle) ? 0 : screenWidth - view.getWidth();
+
+                            Log.d(TAG, "Snapping FAB to edge: " + (view.getX() < middle ? "LEFT" : "RIGHT"));
+                            view.animate()
+                                    .x(targetX)
+                                    .setDuration(200)
+                                    .start();
+                        }
+                        return true;
+
+                    default:
+                        Log.d(TAG, "Unhandled touch action: " + event.getActionMasked());
+                        return false;
+                }
+            }
+        });
 
         shareCommunity.setOnClickListener(v -> {
 
@@ -308,6 +384,79 @@ public class ResultActivity extends AppCompatActivity {
 
     private boolean namesMatch(String a, String b) {
         return normalize(cleanName(a)).equalsIgnoreCase(normalize(cleanName(b)));
+    }
+
+    private void showNoteBottomSheet() {
+        if (rootView == null || isFinishing()) return;
+
+        View sheetView = getLayoutInflater().inflate(R.layout.bottomsheet_note, null);
+        com.google.android.material.bottomsheet.BottomSheetDialog bottomSheetDialog =
+                new com.google.android.material.bottomsheet.BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(sheetView);
+
+        EditText etTitle = sheetView.findViewById(R.id.etDialogTitleInput);
+        EditText etNote = sheetView.findViewById(R.id.etDialogNote);
+        Button btnSave = sheetView.findViewById(R.id.btnSave);
+
+        btnSave.setOnClickListener(v -> {
+            String title = etTitle.getText().toString().trim();
+            String text = etNote.getText().toString().trim();
+
+            if (title.isEmpty() || text.isEmpty()) {
+                showCustomToast("Title and note cannot be empty");
+                return;
+            }
+
+            saveNoteToFirebase(title, text);
+            bottomSheetDialog.dismiss();
+        });
+
+        bottomSheetDialog.show();
+    }
+
+    private void showCustomToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast, findViewById(R.id.toast_root));
+
+        TextView toastText = layout.findViewById(R.id.toast_text);
+        toastText.setText(message);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
+
+    private boolean isPostOwnedByCurrentUser() {
+
+        if (postAuthorId != null && currentUserId != null) {
+            return postAuthorId.equals(currentUserId);
+        }
+
+        return false;
+    }
+
+    private void saveNoteToFirebase(String title, String text) {
+        if (currentUserId == null) return;
+
+        Map<String, Object> noteData = new HashMap<>();
+        noteData.put("title", title);
+        noteData.put("text", text);
+        noteData.put("date", com.google.firebase.Timestamp.now());
+
+        db.collection("users")
+                .document(currentUserId)
+                .collection("notes")
+                .add(noteData)
+                .addOnSuccessListener(docRef -> {
+                    showCustomToast("Note saved!");
+                    Log.d("PostDetailActivity", "Note saved with ID: " + docRef.getId());
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("PostDetailActivity", "Failed to save note", e);
+                    showCustomToast("Failed to save note");
+                });
+
     }
 
     private void hideAllExceptImageAndUnknown() {

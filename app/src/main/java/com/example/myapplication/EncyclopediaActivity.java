@@ -4,9 +4,16 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,11 +21,14 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EncyclopediaActivity extends AppCompatActivity {
 
@@ -34,10 +44,19 @@ public class EncyclopediaActivity extends AppCompatActivity {
     private TabLayout imageIndicator;
     private MushroomImageAdapter imageAdapter;
 
+    private FirebaseFirestore db;
+    private String currentUserId;
+    private View rootView;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encyclopedia);
+
+        rootView = findViewById(android.R.id.content);
+        db = FirebaseFirestore.getInstance();
+        currentUserId = FirebaseAuth.getInstance().getUid();
 
         mushroomNameView = findViewById(R.id.mushroomName);
         mushroomEdibility = findViewById(R.id.mushroomEdibility);
@@ -68,6 +87,61 @@ public class EncyclopediaActivity extends AppCompatActivity {
         imagePager = findViewById(R.id.mushroomImagePager);
         imageIndicator = findViewById(R.id.imageIndicator);
 
+        // Initialize FAB with drag functionality
+        ImageButton fab = findViewById(R.id.fab);
+        fab.setOnTouchListener(new View.OnTouchListener() {
+            private float dX, dY;
+            private int lastAction;
+            private int screenWidth, screenHeight;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (screenWidth == 0 || screenHeight == 0) {
+                    screenWidth = ((View) view.getParent()).getWidth();
+                    screenHeight = ((View) view.getParent()).getHeight();
+                }
+
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        dX = view.getX() - event.getRawX();
+                        dY = view.getY() - event.getRawY();
+                        lastAction = MotionEvent.ACTION_DOWN;
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        float newX = event.getRawX() + dX;
+                        float newY = event.getRawY() + dY;
+
+                        // Keep button within vertical bounds
+                        newY = Math.max(0, Math.min(newY, screenHeight - view.getHeight()));
+
+                        view.setX(newX);
+                        view.setY(newY);
+                        lastAction = MotionEvent.ACTION_MOVE;
+                        return true;
+
+                    case MotionEvent.ACTION_UP:
+                        if (lastAction == MotionEvent.ACTION_DOWN) {
+                            // This was a click, not a drag
+                            showNoteBottomSheet();
+                        } else {
+                            // This was a drag, snap to nearest edge
+                            float middle = screenWidth / 2f;
+                            float targetX = (view.getX() < middle) ? 0 : screenWidth - view.getWidth();
+
+                            view.animate()
+                                    .x(targetX)
+                                    .setDuration(200)
+                                    .start();
+                        }
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+        });
+
         String mushroomName = getIntent().getStringExtra("mushroomName");
         if (mushroomName != null) {
             mushroomNameView.setText(mushroomName);
@@ -76,8 +150,6 @@ public class EncyclopediaActivity extends AppCompatActivity {
     }
 
     private void loadMushroomData(String mushroomName) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         db.collection("mushroom-encyclopedia")
                 .whereEqualTo("mushroomName", mushroomName)
                 .limit(1)
@@ -128,7 +200,6 @@ public class EncyclopediaActivity extends AppCompatActivity {
     }
 
     private void setupImageCarousel(List<String> images) {
-
         imageAdapter = new MushroomImageAdapter(this, images);
         imagePager.setAdapter(imageAdapter);
 
@@ -170,7 +241,6 @@ public class EncyclopediaActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void updateEdibilityUI(String edibility, String reason) {
-
         if (edibility == null || edibility.trim().isEmpty()) {
             edibility = "unknown";
         }
@@ -226,7 +296,6 @@ public class EncyclopediaActivity extends AppCompatActivity {
 
     private void setArrayOrHide(List<String> values, TextView textView, LinearLayout container) {
         if (values != null && !values.isEmpty()) {
-
             List<String> filtered = new ArrayList<>();
             for (String s : values) {
                 if (s != null && !s.trim().isEmpty()) {
@@ -245,5 +314,71 @@ public class EncyclopediaActivity extends AppCompatActivity {
             }
         }
         container.setVisibility(View.GONE);
+    }
+
+    private void showNoteBottomSheet() {
+        if (rootView == null || isFinishing()) return;
+
+        View sheetView = getLayoutInflater().inflate(R.layout.bottomsheet_note, null);
+        com.google.android.material.bottomsheet.BottomSheetDialog bottomSheetDialog =
+                new com.google.android.material.bottomsheet.BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(sheetView);
+
+        EditText etTitle = sheetView.findViewById(R.id.etDialogTitleInput);
+        EditText etNote = sheetView.findViewById(R.id.etDialogNote);
+        Button btnSave = sheetView.findViewById(R.id.btnSave);
+
+        btnSave.setOnClickListener(v -> {
+            String title = etTitle.getText().toString().trim();
+            String text = etNote.getText().toString().trim();
+
+            if (title.isEmpty() || text.isEmpty()) {
+                showCustomToast("Title and note cannot be empty");
+                return;
+            }
+
+            saveNoteToFirebase(title, text);
+            bottomSheetDialog.dismiss();
+        });
+
+        bottomSheetDialog.show();
+    }
+
+    private void saveNoteToFirebase(String title, String text) {
+        if (currentUserId == null) {
+            showCustomToast("Login required to save notes");
+            return;
+        }
+
+        Map<String, Object> noteData = new HashMap<>();
+        noteData.put("title", title);
+        noteData.put("text", text);
+        noteData.put("date", com.google.firebase.Timestamp.now());
+
+        db.collection("users")
+                .document(currentUserId)
+                .collection("notes")
+                .add(noteData)
+                .addOnSuccessListener(docRef -> {
+                    showCustomToast("Note saved!");
+                    Log.d("EncyclopediaActivity", "Note saved with ID: " + docRef.getId());
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("EncyclopediaActivity", "Failed to save note", e);
+                    showCustomToast("Failed to save note");
+                });
+    }
+
+    private void showCustomToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast, findViewById(R.id.toast_root));
+
+        TextView toastText = layout.findViewById(R.id.toast_text);
+        toastText.setText(message);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
     }
 }

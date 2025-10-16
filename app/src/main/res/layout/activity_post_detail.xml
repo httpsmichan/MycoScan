@@ -7,7 +7,7 @@
 
     <ImageButton
         android:id="@+id/fab"
-        android:layout_width="40dp"
+        android:layout_width="50dp"
         android:layout_height="30dp"
         android:layout_gravity="right | center"
         android:background="@drawable/rect_button_bg"

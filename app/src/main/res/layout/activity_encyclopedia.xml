@@ -1,566 +1,549 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/BG"
-    android:scrollbars="none"
-    android:fadeScrollbars="false">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <!-- Mushroom Name -->
-        <TextView
-            android:id="@+id/mushroomName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mushroom Name"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="center"/>
-
-        <!-- Add this section where your image ViewPager2 is located -->
+        android:layout_height="match_parent"
+        android:background="@color/BG"
+        android:scrollbars="none"
+        android:fadeScrollbars="false">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <!-- Image Carousel -->
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/mushroomImagePager"
+            <TextView
+                android:id="@+id/mushroomName"
                 android:layout_width="match_parent"
-                android:layout_height="280dp"/>
-
-            <!-- Dot Indicators -->
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/imageIndicator"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@android:color/transparent"
-                app:tabBackground="@drawable/tab_indicator_selector"
-                app:tabGravity="center"
-                app:tabIndicatorHeight="0dp"
-                app:tabMaxWidth="20dp"
-                app:tabMinWidth="20dp"
-                app:tabPaddingStart="8dp"
-                app:tabPaddingEnd="8dp"
-                app:tabRippleColor="@android:color/transparent" />
+                android:text="Mushroom Name"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
 
-        </LinearLayout>
-
-        <!-- Rest of your encyclopedia layout -->
-        <TextView
-            android:id="@+id/unknown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_notice"
-            android:text="@string/unknown"
-            android:textSize="12sp"
-            android:textColor="#B00020"
-            android:padding="10dp"
-            android:visibility="gone"
-            android:gravity="center"
-            android:layout_marginBottom="10dp" />
-
-        <!-- No Information Layout -->
-        <LinearLayout
-            android:id="@+id/noInformationLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:visibility="gone"
-            android:layout_marginBottom="5dp">
-
-            <ImageView
-                android:id="@+id/noInformationIcon"
-                android:layout_width="20dp"
-                android:layout_height="300dp"
-                android:src="@drawable/ic_danger"
-                android:layout_marginEnd="10dp"
-                app:tint="#808080" />
-
-            <TextView
-                android:id="@+id/noInformationText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No Information Available"
-                android:textSize="14sp"
-                android:textColor="#000000"/>
-        </LinearLayout>
-
-        <!-- 🔽 Add the rest of your containers exactly as in your big XML -->
-        <!-- Edibility, Description, Habitat, Characteristics, Culinary, Medicinal, Toxicity, Symptoms, Duration, LongTerm, Facts, ShareCommunity, Reminder -->
-
-        <!-- Example: -->
-        <LinearLayout
-            android:id="@+id/edibilityContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:background="@drawable/bg_edittext"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:id="@+id/edibilityIcon"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_edibility" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/displayEdibility"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:text="Edibility"/>
-
-                <TextView
-                    android:id="@+id/mushroomEdibility"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="@color/black"
-                    android:text="Edibility"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Description Container -->
-        <LinearLayout
-            android:id="@+id/descriptionContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_edittext">
-
-            <TextView
-                android:id="@+id/displayDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp"
-                android:textColor="@color/black"
-                android:text="Description"/>
-
-            <TextView
-                android:id="@+id/resultDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:text="Description"/>
-        </LinearLayout>
-
-        <!-- Habitat Container -->
-        <LinearLayout
-            android:id="@+id/habitatContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_edittext">
-
-            <TextView
-                android:id="@+id/displayHabitat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp"
-                android:textColor="@color/black"
-                android:text="Habitat"/>
-
-            <TextView
-                android:id="@+id/resultHabitat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:text="Habitat"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/title2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Characteristics"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="20dp"/>
-
-        <LinearLayout
-            android:id="@+id/charLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:gravity="center_vertical"
-            android:layout_marginTop="5dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:gravity="center"
-                android:background="@drawable/bg_edittext"
-                android:layout_marginEnd="8dp">
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
 
-                <TextView
-                    android:id="@+id/resultFirst"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/mushroomImagePager"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"/>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/imageIndicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="First Value"
-                    android:textSize="13sp"
-                    android:textColor="@color/black"
-                    android:gravity="center"/>
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/transparent"
+                    app:tabBackground="@drawable/tab_indicator_selector"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabMaxWidth="20dp"
+                    app:tabMinWidth="20dp"
+                    app:tabPaddingStart="8dp"
+                    app:tabPaddingEnd="8dp"
+                    app:tabRippleColor="@android:color/transparent" />
+
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:gravity="center"
-                android:background="@drawable/bg_edittext"
-                android:layout_marginStart="8dp">
-
-                <TextView
-                    android:id="@+id/resultSecond"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Second Value"
-                    android:textSize="13sp"
-                    android:textColor="@color/black"
-                    android:gravity="center"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Culinary Container -->
-        <LinearLayout
-            android:id="@+id/culinaryContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_edittext"
-            android:gravity="center_vertical">
-
-            <!-- Icon spanning both TextViews -->
-            <ImageView
-                android:id="@+id/culinaryIcon"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_culinary" /> <!-- Replace with your culinary icon -->
-
-            <!-- Vertical container for the two TextViews -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/displayCulinary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="5dp"
-                    android:textColor="@color/black"
-                    android:text="Culinary Uses"/>
-
-                <TextView
-                    android:id="@+id/resultCulinary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="@color/black"
-                    android:text="Culinary uses"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Medicinal Container -->
-        <LinearLayout
-            android:id="@+id/medicinalContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_edittext"
-            android:gravity="center_vertical">
-
-            <!-- Icon spanning both TextViews -->
-            <ImageView
-                android:id="@+id/medicinalIcon"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_medicinal" /> <!-- Replace with your medicinal icon -->
-
-            <!-- Vertical container for the two TextViews -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/displayMedicinal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="5dp"
-                    android:textColor="@color/black"
-                    android:text="Medicinal Uses"/>
-
-                <TextView
-                    android:id="@+id/resultMedicinal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="@color/black"
-                    android:text="Medicinal uses"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Toxicity Container -->
-        <LinearLayout
-            android:id="@+id/toxicityContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_edittext"
-            android:gravity="center_vertical">
-
-            <!-- Icon spanning both TextViews -->
-            <ImageView
-                android:id="@+id/toxicityIcon"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_toxicity" /> <!-- Replace with your toxicity icon -->
-
-            <!-- Vertical container for the two TextViews -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/displayToxicity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="5dp"
-                    android:textColor="@color/black"
-                    android:text="Toxicity"/>
-
-                <TextView
-                    android:id="@+id/resultToxicity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="@color/black"
-                    android:text="Toxicity"/>
-            </LinearLayout>
-        </LinearLayout>
-
-
-        <!-- Symptoms Container -->
-        <LinearLayout
-            android:id="@+id/symptomsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_edittext"
-            android:gravity="center_vertical">
-
-            <!-- Icon spanning both TextViews -->
-            <ImageView
-                android:id="@+id/symptomsIcon"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_symptoms" /> <!-- Replace with your symptoms icon -->
-
-            <!-- Vertical container for the two TextViews -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/displaySymptoms"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="5dp"
-                    android:textColor="@color/black"
-                    android:text="Onset Symptoms"/>
-
-                <TextView
-                    android:id="@+id/resultSymptoms"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="@color/black"
-                    android:text="Onset Symptoms"/>
-            </LinearLayout>
-        </LinearLayout>
-
-
-        <!-- Duration Container -->
-        <LinearLayout
-            android:id="@+id/durationContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_edittext"
-            android:gravity="center_vertical">
-
-            <!-- Icon spanning both TextViews -->
-            <ImageView
-                android:id="@+id/durationIcon"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_duration" /> <!-- Replace with your duration icon -->
-
-            <!-- Vertical container for the two TextViews -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/displayDuration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="5dp"
-                    android:textColor="@color/black"
-                    android:text="Duration of Effects"/>
-
-                <TextView
-                    android:id="@+id/resultDuration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="@color/black"
-                    android:text="Duration of Effects"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Long Term Effects Container -->
-        <LinearLayout
-            android:id="@+id/longTermContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_edittext"
-            android:gravity="center_vertical">
-
-            <!-- Icon spanning both TextViews -->
-            <ImageView
-                android:id="@+id/longTermIcon"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_long_term" /> <!-- Replace with your long term icon -->
-
-            <!-- Vertical container for the two TextViews -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/displayLongTerm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="5dp"
-                    android:textColor="@color/black"
-                    android:text="Long Term Effects"/>
-
-                <TextView
-                    android:id="@+id/resultLongTerm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="@color/black"
-                    android:text="Long term Effects"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Facts Container -->
-        <LinearLayout
-            android:id="@+id/factsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_edittext">
 
             <TextView
-                android:id="@+id/displayFacts"
-                android:layout_width="wrap_content"
+                android:id="@+id/unknown"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp"
-                android:textColor="@color/black"
-                android:text="Facts"/>
-
-            <TextView
-                android:id="@+id/resultFacts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:background="@drawable/bg_notice"
+                android:text="@string/unknown"
                 android:textSize="12sp"
-                android:textColor="@color/black"
-                android:text="Facts"/>
-        </LinearLayout>
-        <!-- ⚠️ Continue copying the rest (Description, Habitat, Culinary, etc.) from your big XML file here -->
+                android:textColor="#B00020"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:layout_marginBottom="10dp" />
 
-    </LinearLayout>
-</ScrollView>
+            <LinearLayout
+                android:id="@+id/noInformationLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:layout_marginBottom="5dp">
+
+                <ImageView
+                    android:id="@+id/noInformationIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="300dp"
+                    android:src="@drawable/ic_danger"
+                    android:layout_marginEnd="10dp"
+                    app:tint="#808080" />
+
+                <TextView
+                    android:id="@+id/noInformationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Information Available"
+                    android:textSize="14sp"
+                    android:textColor="#000000"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/edibilityContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/edibilityIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_edibility" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/displayEdibility"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:text="Edibility"/>
+
+                    <TextView
+                        android:id="@+id/mushroomEdibility"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:text="Edibility"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/descriptionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edittext">
+
+                <TextView
+                    android:id="@+id/displayDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/black"
+                    android:text="Description"/>
+
+                <TextView
+                    android:id="@+id/resultDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:text="Description"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/habitatContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_edittext">
+
+                <TextView
+                    android:id="@+id/displayHabitat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/black"
+                    android:text="Habitat"/>
+
+                <TextView
+                    android:id="@+id/resultHabitat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:text="Habitat"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Characteristics"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"/>
+
+            <LinearLayout
+                android:id="@+id/charLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_edittext"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/resultFirst"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="First Value"
+                        android:textSize="13sp"
+                        android:textColor="@color/black"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_edittext"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:id="@+id/resultSecond"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Second Value"
+                        android:textSize="13sp"
+                        android:textColor="@color/black"
+                        android:gravity="center"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/culinaryContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/culinaryIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_culinary" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/displayCulinary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/black"
+                        android:text="Culinary Uses"/>
+
+                    <TextView
+                        android:id="@+id/resultCulinary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:text="Culinary uses"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/medicinalContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/medicinalIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_medicinal" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/displayMedicinal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/black"
+                        android:text="Medicinal Uses"/>
+
+                    <TextView
+                        android:id="@+id/resultMedicinal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:text="Medicinal uses"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/toxicityContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/toxicityIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_toxicity" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/displayToxicity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/black"
+                        android:text="Toxicity"/>
+
+                    <TextView
+                        android:id="@+id/resultToxicity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:text="Toxicity"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/symptomsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/symptomsIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_symptoms" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/displaySymptoms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/black"
+                        android:text="Onset Symptoms"/>
+
+                    <TextView
+                        android:id="@+id/resultSymptoms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:text="Onset Symptoms"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/durationContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/durationIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_duration" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/displayDuration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/black"
+                        android:text="Duration of Effects"/>
+
+                    <TextView
+                        android:id="@+id/resultDuration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:text="Duration of Effects"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/longTermContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/longTermIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_long_term" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/displayLongTerm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/black"
+                        android:text="Long Term Effects"/>
+
+                    <TextView
+                        android:id="@+id/resultLongTerm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:text="Long term Effects"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/factsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_edittext">
+
+                <TextView
+                    android:id="@+id/displayFacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/black"
+                    android:text="Facts"/>
+
+                <TextView
+                    android:id="@+id/resultFacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:text="Facts"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/fab"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right | center"
+        android:background="@drawable/rect_button_bg"
+        android:src="@drawable/ic_edit"
+        android:scaleType="center"
+        android:padding="0dp"
+        android:elevation="1dp"/>
+
+</FrameLayout>

@@ -9,7 +9,6 @@
     android:layout_height="match_parent"
     tools:context=".TabbedActivity">
 
-    <!-- Main content (your existing layout) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -50,7 +49,6 @@
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Drawer with RecyclerView -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="280dp"
@@ -63,14 +61,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- Header container -->
             <FrameLayout
                 android:id="@+id/drawerHeaderContainer"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:background="@color/white">
 
-                <!-- Main header image -->
                 <ImageView
                     android:id="@+id/drawerHeaderImage"
                     android:layout_width="match_parent"
@@ -78,7 +74,6 @@
                     android:background="#FAF8EC"
                     android:scaleType="centerCrop"/>
 
-                <!-- Additional image overlay -->
                 <ImageView
                     android:id="@+id/drawerHeaderOverlay"
                     android:layout_width="90dp"
@@ -116,7 +111,6 @@
                 android:layout_marginBottom="3dp"
                 android:textColor="@color/black"/>
 
-            <!-- List of mushrooms -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mushroomRecyclerView"
                 android:layout_width="match_parent"

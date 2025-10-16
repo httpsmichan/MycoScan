@@ -6,13 +6,11 @@
     android:padding="12dp"
     android:background="@color/BG">
 
-    <!-- Spacer to push login container to center -->
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <!-- Login Form Container (Centered Vertically) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,7 +118,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Spacer to push login container to center -->
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"

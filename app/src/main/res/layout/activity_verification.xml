@@ -15,14 +15,12 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
 
-        <!-- Header row -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_marginBottom="10dp">
 
-            <!-- Back clickable text -->
             <TextView
                 android:id="@+id/tvBack"
                 android:layout_width="wrap_content"
@@ -35,7 +33,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"/>
 
-            <!-- Centered header -->
             <TextView
                 android:id="@+id/postsHeader"
                 android:layout_width="wrap_content"
@@ -47,7 +44,6 @@
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
 
-        <!-- Step 1: Affiliation -->
         <LinearLayout
             android:id="@+id/containerAffiliation"
             android:orientation="vertical"
@@ -116,7 +112,6 @@
 
         </LinearLayout>
 
-        <!-- Step 2: Upload TOR -->
         <LinearLayout
             android:id="@+id/containerTOR"
             android:orientation="vertical"
@@ -131,7 +126,7 @@
                 android:id="@+id/textUploadTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Upload your TOR"
+                android:text="Upload your Document"
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:paddingBottom="8dp"/>
@@ -196,7 +191,6 @@
                 android:padding="8dp"/>
         </LinearLayout>
 
-        <!-- Step 3: Gmail -->
         <LinearLayout
             android:id="@+id/containerGmail"
             android:orientation="vertical"
@@ -237,7 +231,6 @@
 
         </LinearLayout>
 
-        <!-- Step 4: Submit -->
         <LinearLayout
             android:id="@+id/containerSubmit"
             android:orientation="vertical"
@@ -262,7 +255,6 @@
 
         </LinearLayout>
 
-        <!-- Already submitted message -->
         <TextView
             android:id="@+id/textAlreadySubmitted"
             android:layout_width="match_parent"

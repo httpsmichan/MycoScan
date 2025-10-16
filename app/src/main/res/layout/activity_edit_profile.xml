@@ -16,14 +16,12 @@
         android:dividerPadding="12dp"
         android:background="@color/BG">
 
-        <!-- Header row -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_marginBottom="10dp">
 
-            <!-- Back clickable text -->
             <TextView
                 android:id="@+id/tvBack"
                 android:layout_width="wrap_content"
@@ -36,7 +34,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"/>
 
-            <!-- Centered header -->
             <TextView
                 android:id="@+id/postsHeader"
                 android:layout_width="wrap_content"
@@ -48,7 +45,6 @@
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
 
-        <!-- Profile Image -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +75,6 @@
                 android:text="CHANGE PHOTO"/>
         </LinearLayout>
 
-        <!-- Username -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,7 +93,6 @@
                 android:textSize="12sp"/>
         </androidx.cardview.widget.CardView>
 
-        <!-- Full Name -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,7 +111,6 @@
                 android:textSize="12sp"/>
         </androidx.cardview.widget.CardView>
 
-        <!-- Bio -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -140,7 +133,6 @@
                 android:textSize="12sp"/>
         </androidx.cardview.widget.CardView>
 
-        <!-- Location -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -159,7 +151,6 @@
                 android:textSize="12sp"/>
         </androidx.cardview.widget.CardView>
 
-        <!-- Mobile -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -180,7 +171,6 @@
                 android:maxLength="15"/>
         </androidx.cardview.widget.CardView>
 
-        <!-- Websites container remains unchanged -->
         <LinearLayout
             android:id="@+id/llWebsitesContainer"
             android:layout_width="match_parent"
@@ -212,7 +202,6 @@
             android:textColor="@android:color/white"
             android:layout_marginTop="10dp"/>
 
-        <!-- Achievements -->
         <TextView
             android:id="@+id/tvAchievementsLabel"
             android:layout_width="match_parent"

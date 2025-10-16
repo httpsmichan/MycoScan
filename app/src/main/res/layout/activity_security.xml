@@ -14,7 +14,6 @@
         android:orientation="vertical"
         android:dividerHeight="16dp">
 
-        <!-- Header row -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,7 +21,6 @@
             android:layout_marginLeft="-10dp"
             android:layout_marginBottom="10dp">
 
-            <!-- Back clickable text -->
             <TextView
                 android:id="@+id/tvBack"
                 android:layout_width="wrap_content"
@@ -35,7 +33,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"/>
 
-            <!-- Centered header -->
             <TextView
                 android:id="@+id/postsHeader"
                 android:layout_width="wrap_content"
@@ -48,7 +45,6 @@
         </RelativeLayout>
 
 
-        <!-- Change Password Container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -151,8 +147,6 @@
 
         </LinearLayout>
 
-
-        <!-- Login Activity & Devices Container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -208,7 +202,6 @@
                 android:text="Log Out of All Other Devices"/>
         </LinearLayout>
 
-        <!-- Account Management Container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
