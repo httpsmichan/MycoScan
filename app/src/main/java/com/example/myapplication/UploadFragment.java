@@ -145,6 +145,11 @@ public class UploadFragment extends Fragment {
 
         btnSubmit.setOnClickListener(v -> {
             String mushroomType = etMushroomType.getText().toString().trim();
+            if (mushroomType.isEmpty()) {
+                mushroomType = "Unknown";
+                etMushroomType.setText("Unknown");
+            }
+
             String category = spinnerCategory.getSelectedItem().toString();
             String description = etDescription.getText().toString().trim();
 
