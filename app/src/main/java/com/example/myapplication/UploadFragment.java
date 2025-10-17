@@ -182,6 +182,11 @@ public class UploadFragment extends Fragment {
                 return;
             }
 
+            if (imageUri == null) {
+                showCustomToast("Please select an image first.");
+                return;
+            }
+
             showCustomToast("Loading...");
 
             MediaManager.get().upload(imageUri)
@@ -189,7 +194,7 @@ public class UploadFragment extends Fragment {
                     .callback(new UploadCallback() {
                         @Override
                         public void onStart(String requestId) {
-                            showCustomToast("Loading...");
+                            showCustomToast("Uploading...");
                         }
 
                         @Override
@@ -197,15 +202,16 @@ public class UploadFragment extends Fragment {
 
                         @Override
                         public void onSuccess(String requestId, Map resultData) {
+
                             String cloudinaryUrl = resultData.get("secure_url").toString();
 
                             getCurrentUsername(username -> {
                                 String fullLocation = getAddressFromCoordinates(latitude, longitude);
 
                                 Map<String, Object> post = new HashMap<>();
-                                post.put("mushroomType", finalMushroomType);
-                                post.put("category", category);
-                                post.put("description", finalDescription);
+                                post.put("mushroomType", etMushroomType.getText().toString().trim());
+                                post.put("category", spinnerCategory.getSelectedItem().toString());
+                                post.put("description", etDescription.getText().toString().trim());
                                 post.put("latitude", latitude);
                                 post.put("longitude", longitude);
                                 post.put("location", fullLocation);
@@ -219,39 +225,22 @@ public class UploadFragment extends Fragment {
                                         .collection("posts")
                                         .add(post)
                                         .addOnSuccessListener(documentReference -> {
-                                            String postId = documentReference.getId();
-                                            documentReference.update("postId", postId);
+                                            documentReference.update("postId", documentReference.getId());
 
                                             showCustomToast("Post saved!");
 
-                                            etMushroomType.setText("");
-                                            etDescription.setText("");
-                                            spinnerCategory.setSelection(0);
-                                            imagePreview.setImageURI(null);
-                                            imagePreview.setVisibility(View.GONE);
-                                            imageUri = null;
-
-                                            tvLatitude.setText("Y: ");
-                                            tvLongitude.setText("X: ");
-                                            latitude = 0.0;
-                                            longitude = 0.0;
-                                            userLocation = "Unknown";
-
-                                            mapPreview.getOverlays().clear();
-
-                                            HomeFragment homeFragment = new HomeFragment();
-                                            requireActivity().getSupportFragmentManager()
-                                                    .beginTransaction()
-                                                    .replace(R.id.fragmentContainer, homeFragment)
-                                                    .addToBackStack(null)
-                                                    .commit();
+                                            if (isAdded()) {
+                                                requireActivity().runOnUiThread(() -> {
+                                                    requireActivity().getSupportFragmentManager()
+                                                            .beginTransaction()
+                                                            .replace(R.id.fragmentContainer, new HomeFragment())
+                                                            .commitAllowingStateLoss();
+                                                });
+                                            }
                                         })
-                                        .addOnFailureListener(e ->
-                                                showCustomToast("Error saving post: " + e.getMessage())
-                                        );
+                                        .addOnFailureListener(e -> showCustomToast("Error saving post: " + e.getMessage()));
                             });
                         }
-
 
                         @Override
                         public void onError(String requestId, ErrorInfo error) {

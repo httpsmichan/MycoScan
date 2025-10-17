@@ -87,7 +87,6 @@ public class EncyclopediaActivity extends AppCompatActivity {
         imagePager = findViewById(R.id.mushroomImagePager);
         imageIndicator = findViewById(R.id.imageIndicator);
 
-        // Initialize FAB with drag functionality
         ImageButton fab = findViewById(R.id.fab);
         fab.setOnTouchListener(new View.OnTouchListener() {
             private float dX, dY;
@@ -112,7 +111,6 @@ public class EncyclopediaActivity extends AppCompatActivity {
                         float newX = event.getRawX() + dX;
                         float newY = event.getRawY() + dY;
 
-                        // Keep button within vertical bounds
                         newY = Math.max(0, Math.min(newY, screenHeight - view.getHeight()));
 
                         view.setX(newX);
@@ -122,10 +120,10 @@ public class EncyclopediaActivity extends AppCompatActivity {
 
                     case MotionEvent.ACTION_UP:
                         if (lastAction == MotionEvent.ACTION_DOWN) {
-                            // This was a click, not a drag
+
                             showNoteBottomSheet();
                         } else {
-                            // This was a drag, snap to nearest edge
+
                             float middle = screenWidth / 2f;
                             float targetX = (view.getX() < middle) ? 0 : screenWidth - view.getWidth();
 
@@ -231,13 +229,20 @@ public class EncyclopediaActivity extends AppCompatActivity {
     }
 
     private void setTextOrHide(Object value, TextView textView, LinearLayout container) {
-        if (value != null && !value.toString().trim().isEmpty()) {
-            textView.setText(value.toString());
-            container.setVisibility(View.VISIBLE);
-        } else {
+        if (value == null) {
             container.setVisibility(View.GONE);
+            return;
+        }
+
+        String text = value.toString().trim();
+        if (text.isEmpty() || text.equalsIgnoreCase("null")) {
+            container.setVisibility(View.GONE);
+        } else {
+            textView.setText(text);
+            container.setVisibility(View.VISIBLE);
         }
     }
+
 
     @SuppressLint("SetTextI18n")
     private void updateEdibilityUI(String edibility, String reason) {
@@ -295,25 +300,28 @@ public class EncyclopediaActivity extends AppCompatActivity {
     }
 
     private void setArrayOrHide(List<String> values, TextView textView, LinearLayout container) {
-        if (values != null && !values.isEmpty()) {
-            List<String> filtered = new ArrayList<>();
-            for (String s : values) {
-                if (s != null && !s.trim().isEmpty()) {
-                    filtered.add(s);
-                }
-            }
+        if (values == null || values.isEmpty()) {
+            container.setVisibility(View.GONE);
+            return;
+        }
 
-            if (!filtered.isEmpty()) {
-                StringBuilder builder = new StringBuilder();
-                for (String s : filtered) {
-                    builder.append("• ").append(s).append("\n");
-                }
-                textView.setText(builder.toString().trim());
-                container.setVisibility(View.VISIBLE);
-                return;
+        List<String> filtered = new ArrayList<>();
+        for (String s : values) {
+            if (s != null && !s.trim().isEmpty() && !s.equalsIgnoreCase("null")) {
+                filtered.add(s.trim());
             }
         }
-        container.setVisibility(View.GONE);
+
+        if (!filtered.isEmpty()) {
+            StringBuilder builder = new StringBuilder();
+            for (String s : filtered) {
+                builder.append("• ").append(s).append("\n");
+            }
+            textView.setText(builder.toString().trim());
+            container.setVisibility(View.VISIBLE);
+        } else {
+            container.setVisibility(View.GONE);
+        }
     }
 
     private void showNoteBottomSheet() {
