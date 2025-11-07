@@ -69,6 +69,14 @@ public class TabbedActivity extends AppCompatActivity {
             bundle.putString("photoUri", getIntent().getStringExtra("photoUri"));
             bundle.putDouble("latitude", getIntent().getDoubleExtra("latitude", 0.0));
             bundle.putDouble("longitude", getIntent().getDoubleExtra("longitude", 0.0));
+
+            // CRITICAL: Forward confidence and detectedClass
+            bundle.putFloat("confidence", getIntent().getFloatExtra("confidence", 0f));
+            bundle.putString("detectedClass", getIntent().getStringExtra("detectedClass"));
+
+            Log.d("TabbedActivity", "Forwarding confidence: " + getIntent().getFloatExtra("confidence", 0f));
+            Log.d("TabbedActivity", "Forwarding detectedClass: " + getIntent().getStringExtra("detectedClass"));
+
             uploadFragment.setArguments(bundle);
 
             loadFragment(uploadFragment);
@@ -151,6 +159,14 @@ public class TabbedActivity extends AppCompatActivity {
             bundle.putString("photoUri", intent.getStringExtra("photoUri"));
             bundle.putDouble("latitude", intent.getDoubleExtra("latitude", 0.0));
             bundle.putDouble("longitude", intent.getDoubleExtra("longitude", 0.0));
+
+            // CRITICAL: Forward confidence and detectedClass in onNewIntent too
+            bundle.putFloat("confidence", intent.getFloatExtra("confidence", 0f));
+            bundle.putString("detectedClass", intent.getStringExtra("detectedClass"));
+
+            Log.d("TabbedActivity", "onNewIntent - Forwarding confidence: " + intent.getFloatExtra("confidence", 0f));
+            Log.d("TabbedActivity", "onNewIntent - Forwarding detectedClass: " + intent.getStringExtra("detectedClass"));
+
             uploadFragment.setArguments(bundle);
 
             loadFragment(uploadFragment);

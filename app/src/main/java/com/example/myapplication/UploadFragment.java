@@ -58,6 +58,8 @@ import org.osmdroid.api.IMapController;
 
 public class UploadFragment extends Fragment {
 
+    private static final String TAG = "UploadFragment";
+
     private EditText etMushroomType, etDescription;
     private Spinner spinnerCategory;
     private TextView btnPickImage, btnGetLocation;
@@ -77,6 +79,10 @@ public class UploadFragment extends Fragment {
     private LinearLayout coordinates;
     private MapView miniMapView;
     private TextView btnOpenFullMap;
+
+    // CRITICAL: Store confidence and detected class
+    private float detectedConfidence = 0f;
+    private String detectedClass = "";
 
     private List<String> bannedWords = new ArrayList<>();
 
@@ -143,116 +149,7 @@ public class UploadFragment extends Fragment {
         mapPreview.setTileSource(TileSourceFactory.MAPNIK);
         mapPreview.setMultiTouchControls(true);
 
-        btnSubmit.setOnClickListener(v -> {
-            String mushroomType = etMushroomType.getText().toString().trim();
-            if (mushroomType.isEmpty()) {
-                mushroomType = "Unknown";
-                etMushroomType.setText("Unknown");
-            }
-
-            String category = spinnerCategory.getSelectedItem().toString();
-            String description = etDescription.getText().toString().trim();
-
-            final String finalMushroomType = mushroomType;
-            final String finalDescription = description;
-
-            if (!DavaoGeoFence.isInsideDavao(latitude, longitude)) {
-                showCustomToast("You're outside Davao City. Posting is only allowed inside Davao City.");
-                return;
-            }
-
-            if (containsBannedWord(mushroomType) || containsBannedWord(description)) {
-                getCurrentUsername(username -> {
-                    Map<String, Object> log = new HashMap<>();
-                    log.put("username", username);
-                    log.put("datestamp", System.currentTimeMillis());
-                    log.put("reason", "use of banned words");
-
-                    FirebaseFirestore.getInstance()
-                            .collection("logs")
-                            .add(log)
-                            .addOnSuccessListener(doc ->
-                                    showCustomToast("Inappropriate words detected. Logged for review.")
-                            )
-                            .addOnFailureListener(e ->
-                                    showCustomToast("Failed to log banned word use.")
-                            );
-
-                });
-                return;
-            }
-
-            if (imageUri == null) {
-                showCustomToast("Please select an image first.");
-                return;
-            }
-
-            showCustomToast("Loading...");
-
-            MediaManager.get().upload(imageUri)
-                    .unsigned("mushrooms")
-                    .callback(new UploadCallback() {
-                        @Override
-                        public void onStart(String requestId) {
-                            showCustomToast("Uploading...");
-                        }
-
-                        @Override
-                        public void onProgress(String requestId, long bytes, long totalBytes) {}
-
-                        @Override
-                        public void onSuccess(String requestId, Map resultData) {
-
-                            String cloudinaryUrl = resultData.get("secure_url").toString();
-
-                            getCurrentUsername(username -> {
-                                String fullLocation = getAddressFromCoordinates(latitude, longitude);
-
-                                Map<String, Object> post = new HashMap<>();
-                                post.put("mushroomType", etMushroomType.getText().toString().trim());
-                                post.put("category", spinnerCategory.getSelectedItem().toString());
-                                post.put("description", etDescription.getText().toString().trim());
-                                post.put("latitude", latitude);
-                                post.put("longitude", longitude);
-                                post.put("location", fullLocation);
-                                post.put("imageUrl", cloudinaryUrl);
-                                post.put("timestamp", System.currentTimeMillis());
-                                post.put("userId", getCurrentUserId());
-                                post.put("username", username);
-                                post.put("verified", "not verified");
-
-                                FirebaseFirestore.getInstance()
-                                        .collection("posts")
-                                        .add(post)
-                                        .addOnSuccessListener(documentReference -> {
-                                            documentReference.update("postId", documentReference.getId());
-
-                                            showCustomToast("Post saved!");
-
-                                            if (isAdded()) {
-                                                requireActivity().runOnUiThread(() -> {
-                                                    requireActivity().getSupportFragmentManager()
-                                                            .beginTransaction()
-                                                            .replace(R.id.fragmentContainer, new HomeFragment())
-                                                            .commitAllowingStateLoss();
-                                                });
-                                            }
-                                        })
-                                        .addOnFailureListener(e -> showCustomToast("Error saving post: " + e.getMessage()));
-                            });
-                        }
-
-                        @Override
-                        public void onError(String requestId, ErrorInfo error) {
-                            showCustomToast("Upload failed: " + error.getDescription());
-                        }
-
-                        @Override
-                        public void onReschedule(String requestId, ErrorInfo error) {}
-                    })
-                    .dispatch();
-        });
-
+        // GET ARGUMENTS FIRST before setting up button listeners
         if (getArguments() != null) {
             String mushroomType = getArguments().getString("mushroomType");
             String category = getArguments().getString("category");
@@ -260,6 +157,16 @@ public class UploadFragment extends Fragment {
             String photoUriString = getArguments().getString("photoUri");
             double lat = getArguments().getDouble("latitude", 0.0);
             double lon = getArguments().getDouble("longitude", 0.0);
+
+            // CRITICAL: Retrieve confidence and detected class
+            detectedConfidence = getArguments().getFloat("confidence", 0f);
+            detectedClass = getArguments().getString("detectedClass", "");
+
+            Log.d(TAG, "===== RECEIVED ARGUMENTS =====");
+            Log.d(TAG, "Confidence: " + detectedConfidence);
+            Log.d(TAG, "Detected Class: " + detectedClass);
+            Log.d(TAG, "Mushroom Type: " + mushroomType);
+            Log.d(TAG, "==============================");
 
             if (mushroomType != null && !mushroomType.isEmpty()) {
                 etMushroomType.setText(mushroomType);
@@ -296,12 +203,156 @@ public class UploadFragment extends Fragment {
             }
         }
 
+        btnSubmit.setOnClickListener(v -> {
+            String mushroomType = etMushroomType.getText().toString().trim();
+            if (mushroomType.isEmpty()) {
+                mushroomType = "Unknown";
+                etMushroomType.setText("Unknown");
+            }
+
+            String category = spinnerCategory.getSelectedItem().toString();
+            String description = etDescription.getText().toString().trim();
+
+            if (!DavaoGeoFence.isInsideDavao(latitude, longitude)) {
+                showCustomToast("You're outside Davao City. Posting is only allowed inside Davao City.");
+                return;
+            }
+
+            if (containsBannedWord(mushroomType) || containsBannedWord(description)) {
+                getCurrentUsername(username -> {
+                    Map<String, Object> log = new HashMap<>();
+                    log.put("username", username);
+                    log.put("datestamp", System.currentTimeMillis());
+                    log.put("reason", "use of banned words");
+
+                    FirebaseFirestore.getInstance()
+                            .collection("logs")
+                            .add(log)
+                            .addOnSuccessListener(doc ->
+                                    showCustomToast("Inappropriate words detected. Logged for review.")
+                            )
+                            .addOnFailureListener(e ->
+                                    showCustomToast("Failed to log banned word use.")
+                            );
+                });
+                return;
+            }
+
+            if (imageUri == null) {
+                showCustomToast("Please select an image first.");
+                return;
+            }
+
+            showCustomToast("Loading...");
+
+            MediaManager.get().upload(imageUri)
+                    .unsigned("mushrooms")
+                    .callback(new UploadCallback() {
+                        @Override
+                        public void onStart(String requestId) {
+                            showCustomToast("Uploading...");
+                        }
+
+                        @Override
+                        public void onProgress(String requestId, long bytes, long totalBytes) {}
+
+                        @Override
+                        public void onSuccess(String requestId, Map resultData) {
+                            String cloudinaryUrl = resultData.get("secure_url").toString();
+
+                            getCurrentUsername(username -> {
+                                String fullLocation = getAddressFromCoordinates(latitude, longitude);
+
+                                Map<String, Object> post = new HashMap<>();
+                                post.put("mushroomType", etMushroomType.getText().toString().trim());
+                                post.put("category", spinnerCategory.getSelectedItem().toString());
+                                post.put("description", etDescription.getText().toString().trim());
+                                post.put("latitude", latitude);
+                                post.put("longitude", longitude);
+                                post.put("location", fullLocation);
+                                post.put("imageUrl", cloudinaryUrl);
+                                post.put("timestamp", System.currentTimeMillis());
+                                post.put("userId", getCurrentUserId());
+                                post.put("username", username);
+
+                                // VERIFICATION LOGIC
+                                String verifiedStatus;
+
+                                // Convert confidence to percentage if it's between 0-1
+                                float confidencePercentage = detectedConfidence;
+                                if (confidencePercentage > 0 && confidencePercentage <= 1.0f) {
+                                    confidencePercentage *= 100;
+                                }
+
+                                Log.d(TAG, "===== VERIFICATION CALCULATION =====");
+                                Log.d(TAG, "Original confidence: " + detectedConfidence);
+                                Log.d(TAG, "Confidence percentage: " + confidencePercentage);
+                                Log.d(TAG, "Detected class: '" + detectedClass + "'");
+
+                                // Determine verification status
+                                if (detectedClass == null || detectedClass.trim().isEmpty() ||
+                                        "Unknown".equalsIgnoreCase(detectedClass.trim())) {
+                                    verifiedStatus = "not verified";
+                                    Log.d(TAG, "Status: not verified (Unknown class)");
+                                } else if (confidencePercentage >= 85.0f) {
+                                    verifiedStatus = "verified";
+                                    Log.d(TAG, "Status: verified (confidence >= 85%)");
+                                } else {
+                                    verifiedStatus = "unreliable";
+                                    Log.d(TAG, "Status: unreliable (confidence < 85%)");
+                                }
+
+                                Log.d(TAG, "Final verified status: " + verifiedStatus);
+                                Log.d(TAG, "===================================");
+
+                                post.put("verified", verifiedStatus);
+
+                                FirebaseFirestore.getInstance()
+                                        .collection("posts")
+                                        .add(post)
+                                        .addOnSuccessListener(documentReference -> {
+                                            documentReference.update("postId", documentReference.getId());
+
+                                            Log.d(TAG, "Post saved with ID: " + documentReference.getId());
+                                            Log.d(TAG, "Verified status in post: " + verifiedStatus);
+
+                                            showCustomToast("Post saved!");
+
+                                            if (isAdded()) {
+                                                requireActivity().runOnUiThread(() -> {
+                                                    requireActivity().getSupportFragmentManager()
+                                                            .beginTransaction()
+                                                            .replace(R.id.fragmentContainer, new HomeFragment())
+                                                            .commitAllowingStateLoss();
+                                                });
+                                            }
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Log.e(TAG, "Error saving post", e);
+                                            showCustomToast("Error saving post: " + e.getMessage());
+                                        });
+                            });
+                        }
+
+                        @Override
+                        public void onError(String requestId, ErrorInfo error) {
+                            showCustomToast("Upload failed: " + error.getDescription());
+                        }
+
+                        @Override
+                        public void onReschedule(String requestId, ErrorInfo error) {}
+                    })
+                    .dispatch();
+        });
+
         return root;
     }
 
     private void showCustomToast(String message) {
+        if (!isAdded()) return;
+
         LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(R.layout.custom_toast, getView().findViewById(R.id.toast_root));
+        View layout = inflater.inflate(R.layout.custom_toast, null);
 
         TextView toastText = layout.findViewById(R.id.toast_text);
         toastText.setText(message);
@@ -325,7 +376,7 @@ public class UploadFragment extends Fragment {
     private void getUserLocation() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e("UploadFragment", "Location permissions not granted!");
+            Log.e(TAG, "Location permissions not granted!");
             showCustomToast("Location permission is required.");
             return;
         }
@@ -344,7 +395,7 @@ public class UploadFragment extends Fragment {
                     @Override
                     public void onLocationResult(com.google.android.gms.location.LocationResult locationResult) {
                         if (locationResult == null) {
-                            Log.e("UploadFragment", "Fresh location request returned null.");
+                            Log.e(TAG, "Fresh location request returned null.");
                             showCustomToast("Unable to fetch location.");
                             return;
                         }
@@ -367,7 +418,7 @@ public class UploadFragment extends Fragment {
                             userLocation = fullAddress != null ? fullAddress : latitude + "," + longitude;
                         }
 
-                        Log.d("UploadFragment", "Fresh location fetched: " + userLocation);
+                        Log.d(TAG, "Fresh location fetched: " + userLocation);
 
                         tvLatitude.setText("Y: " + latitude);
                         tvLongitude.setText("X: " + longitude);
@@ -412,7 +463,7 @@ public class UploadFragment extends Fragment {
                 return result;
             }
         } catch (Exception e) {
-            Log.e("UploadFragment", "Geocoder error: " + e.getMessage());
+            Log.e(TAG, "Geocoder error: " + e.getMessage());
             e.printStackTrace();
         }
 

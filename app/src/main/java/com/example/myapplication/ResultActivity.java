@@ -115,6 +115,8 @@ public class ResultActivity extends AppCompatActivity {
         shareCommunity = findViewById(R.id.shareCommunity);
         rootView = findViewById(android.R.id.content);
 
+        db = FirebaseFirestore.getInstance();
+
         ImageButton fab = findViewById(R.id.fab);
 
         fab.setOnTouchListener(new View.OnTouchListener() {
@@ -178,13 +180,22 @@ public class ResultActivity extends AppCompatActivity {
         });
 
         shareCommunity.setOnClickListener(v -> {
-
             String mushroomName = mushroomNameText.getText().toString();
-
             String photoUriString = getIntent().getStringExtra("photoUri");
 
             double latitude = getIntent().getDoubleExtra("latitude", 0.0);
             double longitude = getIntent().getDoubleExtra("longitude", 0.0);
+
+            // GET CONFIDENCE AND PREDICTION FROM INTENT
+            float confidence = getIntent().getFloatExtra("confidence", 0f);
+            String prediction = getIntent().getStringExtra("prediction");
+            String cleanedPrediction = prediction != null ? prediction.replaceFirst("^\\d+\\s+", "").trim() : "";
+
+            Log.d(TAG, "===== SHARE TO COMMUNITY =====");
+            Log.d(TAG, "Confidence from intent: " + confidence);
+            Log.d(TAG, "Prediction: " + prediction);
+            Log.d(TAG, "Cleaned prediction: " + cleanedPrediction);
+            Log.d(TAG, "==============================");
 
             String edibility = "Unknown / Needs ID";
             if (mushroomEdibility.getText() != null) {
@@ -220,6 +231,13 @@ public class ResultActivity extends AppCompatActivity {
             intent.putExtra("photoUri", photoUriString);
             intent.putExtra("latitude", latitude);
             intent.putExtra("longitude", longitude);
+
+            // CRITICAL: Pass confidence and prediction for verification
+            intent.putExtra("confidence", confidence);
+            intent.putExtra("detectedClass", cleanedPrediction);
+
+            Log.d(TAG, "Passing to TabbedActivity - confidence: " + confidence + ", class: " + cleanedPrediction);
+
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
@@ -227,6 +245,9 @@ public class ResultActivity extends AppCompatActivity {
         String photoUriString = getIntent().getStringExtra("photoUri");
         String prediction = getIntent().getStringExtra("prediction");
         float confidence = getIntent().getFloatExtra("confidence", -1f);
+
+        Log.d(TAG, "onCreate - Received confidence: " + confidence);
+        Log.d(TAG, "onCreate - Received prediction: " + prediction);
 
         if (photoUriString != null) {
             Uri photoUri = Uri.parse(photoUriString);

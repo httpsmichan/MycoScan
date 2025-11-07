@@ -185,13 +185,20 @@ public class FavoritesFragment extends Fragment {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), imageUri);
                     ClassificationResult result = tfliteHelper.classify(bitmap);
 
+                    Log.d(TAG, "Predicted: " + result.label + ", Confidence: " + result.confidence);
+
                     logScanToFirestore(result.label, result.confidence);
 
-                    Intent intent = new Intent(getContext(), ResultActivity.class);
-                    intent.putExtra("photoUri", imageUri.toString());
-                    intent.putExtra("prediction", result.label);
-                    intent.putExtra("confidence", result.confidence);
-                    startActivity(intent);
+                    if (result.label.toLowerCase().contains("unknown")) {
+                        showCustomToast("This object is not a mushroom species");
+                    } else {
+                        Intent intent = new Intent(getContext(), ResultActivity.class);
+                        intent.putExtra("photoUri", imageUri.toString());
+                        intent.putExtra("prediction", result.label);
+                        intent.putExtra("confidence", result.confidence);
+                        intent.putExtra("confidencePercentage", result.confidence * 100);
+                        startActivity(intent);
+                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -268,13 +275,21 @@ public class FavoritesFragment extends Fragment {
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), savedUri);
                             ClassificationResult result = tfliteHelper.classify(bitmap);
 
+                            Log.d(TAG, "Predicted: " + result.label + ", Confidence: " + result.confidence);
+
                             logScanToFirestore(result.label, result.confidence);
 
-                            Intent intent = new Intent(getContext(), ResultActivity.class);
-                            intent.putExtra("photoUri", savedUri.toString());
-                            intent.putExtra("prediction", result.label);
-                            intent.putExtra("confidence", result.confidence);
-                            startActivity(intent);
+                            if (result.label.toLowerCase().contains("unknown")) {
+                                showCustomToast("This object is not a mushroom species");
+                            } else {
+                                Intent intent = new Intent(getContext(), ResultActivity.class);
+                                intent.putExtra("photoUri", savedUri.toString());
+                                intent.putExtra("prediction", result.label);
+                                intent.putExtra("confidence", result.confidence);
+                                intent.putExtra("confidencePercentage", result.confidence * 100);
+                                startActivity(intent);
+                            }
+
 
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -291,7 +306,6 @@ public class FavoritesFragment extends Fragment {
      */
     private void logScanToFirestore(String predictedLabel, float confidence) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         if (user == null) {
             Log.w(TAG, "User not logged in, cannot log scan to Firestore");
             return;
@@ -299,10 +313,20 @@ public class FavoritesFragment extends Fragment {
 
         String userId = user.getUid();
 
+        String verifiedStatus;
+        if ("Unknown".equalsIgnoreCase(predictedLabel)) {
+            verifiedStatus = "not verified";
+        } else if (confidence >= 85.0f) {
+            verifiedStatus = "verified";
+        } else {
+            verifiedStatus = "unreliable";
+        }
+
         Map<String, Object> scanData = new HashMap<>();
         scanData.put("timestamp", FieldValue.serverTimestamp());
         scanData.put("predictedLabel", predictedLabel);
         scanData.put("confidence", confidence);
+        scanData.put("verified", verifiedStatus);
 
         db.collection("users")
                 .document(userId)
@@ -314,12 +338,9 @@ public class FavoritesFragment extends Fragment {
                     db.collection("users")
                             .document(userId)
                             .update("scanned", FieldValue.increment(1))
-                            .addOnSuccessListener(aVoid -> {
-                                Log.d(TAG, "Scan counter incremented successfully");
-                            })
+                            .addOnSuccessListener(aVoid -> Log.d(TAG, "Scan counter incremented successfully"))
                             .addOnFailureListener(e -> {
                                 Log.e(TAG, "Error incrementing scan counter", e);
-
                                 Map<String, Object> counterData = new HashMap<>();
                                 counterData.put("scanned", 1);
                                 db.collection("users").document(userId)
