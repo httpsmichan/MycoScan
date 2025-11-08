@@ -94,7 +94,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         }
 
         if (holder.imageView != null) {
-            String imageUrl = post.getImageUrl();
+            String imageUrl = post.getFirstImageUrl();
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 Glide.with(holder.itemView.getContext())
                         .load(imageUrl)

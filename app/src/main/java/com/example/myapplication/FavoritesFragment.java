@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.camera.core.AspectRatio;
+import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
@@ -34,11 +37,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,17 +54,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import android.widget.ImageButton;
-import androidx.camera.core.Camera;
-import androidx.camera.core.CameraControl;
-import androidx.camera.core.CameraInfo;
-
-import android.database.Cursor;
-import android.provider.MediaStore;
-import android.widget.ImageView;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
 public class FavoritesFragment extends Fragment {
 
     private static final String TAG = "FavoritesFragment";
@@ -70,6 +63,7 @@ public class FavoritesFragment extends Fragment {
     private PreviewView previewView;
     private Button btnTakePhoto;
     private ImageButton btnToggleCamera, btnFlash;
+    private MaterialButton btnCameraMode;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private ImageCapture imageCapture;
     private CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
@@ -81,6 +75,8 @@ public class FavoritesFragment extends Fragment {
     private static final int REQUEST_CODE_PICK_IMAGE = 20;
 
     private FirebaseFirestore db;
+
+    private boolean isScanMode = true;
 
     public FavoritesFragment() { }
 
@@ -94,6 +90,7 @@ public class FavoritesFragment extends Fragment {
         cameraOverlay = view.findViewById(R.id.cameraOverlay);
         btnFlash = view.findViewById(R.id.btnFlash);
         btnToggleCamera = view.findViewById(R.id.btnToggleCamera);
+        btnCameraMode = view.findViewById(R.id.btnCameraMode);
 
         tfliteHelper = new TFLiteHelper(getContext());
         db = FirebaseFirestore.getInstance();
@@ -125,6 +122,7 @@ public class FavoritesFragment extends Fragment {
         btnToggleCamera.setOnClickListener(v -> toggleCamera());
         btnTakePhoto.setOnClickListener(v -> takePhoto());
         btnFlash.setOnClickListener(v -> toggleFlashMode());
+        btnCameraMode.setOnClickListener(v -> toggleCameraMode());
 
         FrameLayout scanningTipsContainer = view.findViewById(R.id.scanningTipsContainer);
         TextView scanningTipsText = view.findViewById(R.id.scanningTipsText);
@@ -143,6 +141,23 @@ public class FavoritesFragment extends Fragment {
         });
 
         return view;
+    }
+
+    /**
+     * Toggle between SCAN and CAPTURE modes
+     */
+    private void toggleCameraMode() {
+        isScanMode = !isScanMode;
+
+        if (isScanMode) {
+            btnCameraMode.setText("SCAN");
+            btnCameraMode.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), android.R.color.holo_green_dark));
+            showCustomToast("Scan mode");
+        } else {
+            btnCameraMode.setText("CAPTURE");
+            btnCameraMode.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), android.R.color.holo_blue_dark));
+            showCustomToast("Capture mode");
+        }
     }
 
     private void startCamera() {
@@ -242,6 +257,70 @@ public class FavoritesFragment extends Fragment {
     private void takePhoto() {
         if (imageCapture == null) return;
 
+        if (isScanMode) {
+            takeScanPhoto();
+        } else {
+            takeCapturePhoto();
+        }
+    }
+
+    /**
+     * SCAN MODE: Take photo, predict, but don't save to gallery
+     */
+    private void takeScanPhoto() {
+        File tempFile = new File(requireContext().getCacheDir(), "temp_scan_" + System.currentTimeMillis() + ".jpg");
+
+        ImageCapture.OutputFileOptions outputOptions =
+                new ImageCapture.OutputFileOptions.Builder(tempFile).build();
+
+        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(getContext()),
+                new ImageCapture.OnImageSavedCallback() {
+                    @Override
+                    public void onError(@NonNull ImageCaptureException exception) {
+                        Log.e(TAG, "Scan failed: " + exception.getMessage(), exception);
+                        showCustomToast("Scan failed!");
+                    }
+
+                    @Override
+                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults output) {
+                        try {
+                            FileInputStream fis = new FileInputStream(tempFile);
+                            Bitmap bitmap = BitmapFactory.decodeStream(fis);
+                            fis.close();
+
+                            ClassificationResult result = tfliteHelper.classify(bitmap);
+                            Log.d(TAG, "Scan - Predicted: " + result.label + ", Confidence: " + result.confidence);
+
+                            logScanToFirestore(result.label, result.confidence);
+
+                            tempFile.delete();
+
+                            if (result.label.toLowerCase().contains("unknown")) {
+                                showCustomToast("This object is not a mushroom species");
+                            } else {
+                                String tempPath = saveBitmapToCache(bitmap);
+
+                                Intent intent = new Intent(getContext(), ResultActivity.class);
+                                intent.putExtra("photoUri", "file://" + tempPath);
+                                intent.putExtra("prediction", result.label);
+                                intent.putExtra("confidence", result.confidence);
+                                intent.putExtra("confidencePercentage", result.confidence * 100);
+                                startActivity(intent);
+                            }
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            showCustomToast("Failed to process scan");
+                            tempFile.delete();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * CAPTURE MODE: Save photo to gallery without prediction
+     */
+    private void takeCapturePhoto() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String fileName = "IMG_" + timeStamp + ".jpg";
 
@@ -269,34 +348,18 @@ public class FavoritesFragment extends Fragment {
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults output) {
                         Uri savedUri = output.getSavedUri();
                         showCustomToast("Photo saved to Gallery!");
-                        Log.d(TAG, "Photo saved: " + savedUri);
-
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), savedUri);
-                            ClassificationResult result = tfliteHelper.classify(bitmap);
-
-                            Log.d(TAG, "Predicted: " + result.label + ", Confidence: " + result.confidence);
-
-                            logScanToFirestore(result.label, result.confidence);
-
-                            if (result.label.toLowerCase().contains("unknown")) {
-                                showCustomToast("This object is not a mushroom species");
-                            } else {
-                                Intent intent = new Intent(getContext(), ResultActivity.class);
-                                intent.putExtra("photoUri", savedUri.toString());
-                                intent.putExtra("prediction", result.label);
-                                intent.putExtra("confidence", result.confidence);
-                                intent.putExtra("confidencePercentage", result.confidence * 100);
-                                startActivity(intent);
-                            }
-
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            showCustomToast("Failed to load photo");
-                        }
+                        Log.d(TAG, "Photo captured and saved: " + savedUri);
                     }
                 });
+    }
+
+    private String saveBitmapToCache(Bitmap bitmap) throws IOException {
+        File cacheFile = new File(requireContext().getCacheDir(), "result_" + System.currentTimeMillis() + ".jpg");
+        java.io.FileOutputStream out = new java.io.FileOutputStream(cacheFile);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+        out.flush();
+        out.close();
+        return cacheFile.getAbsolutePath();
     }
 
     /**

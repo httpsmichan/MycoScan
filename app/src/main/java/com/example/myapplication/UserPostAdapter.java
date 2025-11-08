@@ -35,8 +35,11 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.UserPo
     public void onBindViewHolder(@NonNull UserPostViewHolder holder, int position) {
         Post post = postList.get(position);
 
+        // Use getFirstImageUrl() instead of getImageUrl()
+        String imageUrl = post.getFirstImageUrl();
+
         Glide.with(context)
-                .load(post.getImageUrl())
+                .load(imageUrl)
                 .placeholder(android.R.drawable.ic_menu_report_image)
                 .centerCrop()
                 .into(holder.imagePost);
@@ -44,7 +47,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.UserPo
         holder.imagePost.setOnClickListener(v -> {
             Intent intent = new Intent(context, PostDetailActivity.class);
             intent.putExtra("postId", post.getPostId());
-            intent.putExtra("imageUrl", post.getImageUrl());
+            intent.putExtra("imageUrl", post.getFirstImageUrl()); // Use getFirstImageUrl()
             intent.putExtra("mushroomType", post.getMushroomType());
             intent.putExtra("description", post.getDescription());
             intent.putExtra("username", post.getUsername());

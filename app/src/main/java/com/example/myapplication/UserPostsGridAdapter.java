@@ -36,7 +36,8 @@ public class UserPostsGridAdapter extends RecyclerView.Adapter<UserPostsGridAdap
     public void onBindViewHolder(@NonNull GridViewHolder holder, int position) {
         Post post = postList.get(position);
 
-        String imageUrl = post.getImageUrl();
+        // Use getFirstImageUrl() instead of getImageUrl()
+        String imageUrl = post.getFirstImageUrl();
         Log.d("UserPostsGrid", "Loading image for post " + post.getPostId() + " with URL: " + imageUrl);
 
         if (imageUrl != null && !imageUrl.isEmpty()) {
@@ -56,7 +57,7 @@ public class UserPostsGridAdapter extends RecyclerView.Adapter<UserPostsGridAdap
 
             Intent intent = new Intent(v.getContext(), PostDetailActivity.class);
             intent.putExtra("postId", post.getPostId());
-            intent.putExtra("imageUrl", post.getImageUrl());
+            intent.putExtra("imageUrl", post.getFirstImageUrl()); // Use getFirstImageUrl()
             intent.putExtra("mushroomType", post.getMushroomType());
             intent.putExtra("description", post.getDescription());
             intent.putExtra("userId", post.getUserId());

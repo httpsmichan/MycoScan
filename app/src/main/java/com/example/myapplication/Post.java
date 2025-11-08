@@ -1,10 +1,12 @@
 package com.example.myapplication;
 
+import java.util.List;
+
 public class Post {
     private String postId;
     private String mushroomType;
     private String description;
-    private String imageUrl;
+    private Object imageUrl;
     private String userId;
     private String username;
     private double latitude;
@@ -14,11 +16,9 @@ public class Post {
     private String location;
     private String category;
 
-
-
     public Post() {}
 
-    public Post(String mushroomType, String description, String imageUrl,
+    public Post(String mushroomType, String description, Object imageUrl,
                 String userId, String username, double latitude, double longitude,
                 long timestamp, String verified, String location, String category) {
         this.mushroomType = mushroomType;
@@ -37,7 +37,7 @@ public class Post {
     public String getPostId() { return postId; }
     public String getMushroomType() { return mushroomType; }
     public String getDescription() { return description; }
-    public String getImageUrl() { return imageUrl; }
+    public Object getImageUrl() { return imageUrl; } // Now returns Object
     public String getUserId() { return userId; }
     public String getUsername() { return username; }
     public double getLatitude() { return latitude; }
@@ -50,7 +50,7 @@ public class Post {
     public void setPostId(String postId) { this.postId = postId; }
     public void setMushroomType(String mushroomType) { this.mushroomType = mushroomType; }
     public void setDescription(String description) { this.description = description; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public void setImageUrl(Object imageUrl) { this.imageUrl = imageUrl; } // Now accepts Object
     public void setUserId(String userId) { this.userId = userId; }
     public void setUsername(String username) { this.username = username; }
     public void setLatitude(double latitude) { this.latitude = latitude; }
@@ -59,4 +59,20 @@ public class Post {
     public void setVerified(String verified) { this.verified = verified; }
     public void setLocation(String location) { this.location = location; }
     public void setCategory(String category) { this.category = category; }
+
+    // Helper method to get the SECOND image URL (index 1) as a String
+    public String getFirstImageUrl() {
+        if (imageUrl instanceof String) {
+            return (String) imageUrl;
+        } else if (imageUrl instanceof List) {
+            List<?> urls = (List<?>) imageUrl;
+            // Try to get second image (index 1), fallback to first if only one exists
+            if (urls.size() > 1) {
+                return urls.get(1).toString(); // Get SECOND image
+            } else if (!urls.isEmpty()) {
+                return urls.get(0).toString(); // Fallback to first if only one image
+            }
+        }
+        return null;
+    }
 }

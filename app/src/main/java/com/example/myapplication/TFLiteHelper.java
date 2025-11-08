@@ -69,9 +69,13 @@ public class TFLiteHelper {
             bestLabel = "Unknown";
         }
 
+        if (!bestLabel.equals("Unknown")) {
+            bestLabel = bestLabel.replaceAll("^\\d+\\s*", "");
+        }
+
         Log.d("TFLiteHelper", "Prediction: " + bestLabel + " (confidence: " + confidence + ")");
 
         return new ClassificationResult(bestLabel, confidence);
-
     }
+
 }

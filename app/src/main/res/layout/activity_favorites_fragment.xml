@@ -24,6 +24,23 @@
         android:clickable="false"
         android:focusable="false" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCameraMode"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="SCAN"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        app:cornerRadius="20dp"
+        app:backgroundTint="#4CAF50"
+        android:textColor="@android:color/white"
+        app:iconGravity="textStart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="12dp" />
+
     <ImageButton
         android:id="@+id/btnFlash"
         android:layout_width="40dp"

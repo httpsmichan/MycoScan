@@ -64,7 +64,7 @@
                 android:textColor="@color/black"
                 android:hint="Scientific or Local Name"
                 android:textSize="12sp"
-                android:maxLength="23"/>
+                android:maxLength="25"/>
         </androidx.cardview.widget.CardView>
 
 
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:text="Attach Image"
+            android:text="Attach Images (Max 10)"
             android:textColor="@color/black"
             android:drawableStart="@drawable/ic_l"
             android:gravity="center_vertical"
@@ -112,25 +112,33 @@
             android:id="@+id/btnPickMedia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Attach Image"
+            android:text="Select Images (0/10)"
             android:textColor="@color/black"
             android:background="@drawable/btn_fullmap_bg"
             android:gravity="center"
             android:elevation="2dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_marginBottom="10dp"/>
 
-        <ImageView
-            android:id="@+id/imagePreview"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="12dp"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
+        <!-- Image Preview Horizontal Scroll -->
+        <HorizontalScrollView
+            android:id="@+id/imagePreviewScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
             android:visibility="gone"
-            android:clipToOutline="true"
-            android:background="@drawable/bg_image_borders"
-            android:contentDescription="Preview" />
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:id="@+id/imagePreviewContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"/>
+
+        </HorizontalScrollView>
 
         <TextView
             android:id="@+id/getLocation"
@@ -166,6 +174,8 @@
                     android:background="@drawable/btn_fullmap_bg"
                     android:gravity="center"
                     android:elevation="2dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
                     android:textColor="@color/black"
                     android:text="Get Current Location"/>
 
@@ -209,36 +219,36 @@
                         android:elevation="1dp"/>
 
                 </FrameLayout>
-                    <LinearLayout
-                        android:id="@+id/coordinates"
-                        android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/coordinates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvLatitude"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:visibility="gone">
+                        android:layout_weight="1"
+                        android:text="Latitude: Unknown"
+                        android:textSize="8sp"
+                        android:padding="2dp"
+                        android:layout_marginLeft="50dp"
+                        android:gravity="center"/>
 
-                        <TextView
-                            android:id="@+id/tvLatitude"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Latitude: Unknown"
-                            android:textSize="8sp"
-                            android:padding="2dp"
-                            android:layout_marginLeft="50dp"
-                            android:gravity="center"/>
-
-                        <TextView
-                            android:id="@+id/tvLongitude"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Longitude: Unknown"
-                            android:textSize="8sp"
-                            android:padding="2dp"
-                            android:layout_marginRight="50dp"
-                            android:gravity="center"/>
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvLongitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Longitude: Unknown"
+                        android:textSize="8sp"
+                        android:padding="2dp"
+                        android:layout_marginRight="50dp"
+                        android:gravity="center"/>
+                </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -270,7 +280,7 @@
                 android:background="@null"
                 android:padding="12dp"
                 android:gravity="top"
-                android:hint="What’s your observation?"
+                android:hint="What's your observation?"
                 android:textColor="@color/black"
                 android:inputType="textMultiLine"
                 android:textSize="12sp"/>

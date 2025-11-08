@@ -11,7 +11,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -103,7 +102,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             holder.ivVerificationBadge.setVisibility(View.VISIBLE);
             holder.tvVerifiedStatus.setVisibility(View.GONE);
         } else {
-
             holder.ivVerificationBadge.setVisibility(View.GONE);
             holder.tvVerifiedStatus.setText("Pending Review");
             holder.tvVerifiedStatus.setTextColor(holder.itemView.getResources().getColor(android.R.color.darker_gray));
@@ -112,39 +110,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         holder.tvMushroomType.setText(post.getMushroomType() != null ? post.getMushroomType() : "Unknown type");
 
-        String imageUrl = post.getImageUrl();
-        Log.d("PostAdapter", "Loading image for post " + post.getPostId() + " with URL: " + imageUrl);
+        // Debug logging to see what we're getting
+        Object rawImageData = post.getImageUrl();
+        Log.d("PostAdapter", "Post ID: " + post.getPostId());
+        Log.d("PostAdapter", "Image data type: " + (rawImageData != null ? rawImageData.getClass().getName() : "null"));
+        Log.d("PostAdapter", "Image data value: " + rawImageData);
 
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Log.d("PostAdapter", "Image URL is valid, loading with Glide");
+        // Get the first image URL (works for both String and List)
+        String displayImageUrl = post.getFirstImageUrl();
+        Log.d("PostAdapter", "Display URL: " + displayImageUrl);
 
+        if (displayImageUrl != null && !displayImageUrl.isEmpty()) {
             Glide.with(holder.ivPostImage.getContext())
-                    .load(imageUrl)
+                    .load(displayImageUrl)
                     .placeholder(android.R.drawable.ic_menu_report_image)
                     .error(android.R.drawable.ic_menu_close_clear_cancel)
-                    .listener(new com.bumptech.glide.request.RequestListener<android.graphics.drawable.Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable com.bumptech.glide.load.engine.GlideException e,
-                                                    Object model,
-                                                    com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target,
-                                                    boolean isFirstResource) {
-                            Log.e("PostAdapter", "Glide failed to load image: " + imageUrl, e);
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(android.graphics.drawable.Drawable resource,
-                                                       Object model,
-                                                       com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target,
-                                                       com.bumptech.glide.load.DataSource dataSource,
-                                                       boolean isFirstResource) {
-                            Log.d("PostAdapter", "Glide successfully loaded image: " + imageUrl);
-                            return false;
-                        }
-                    })
                     .into(holder.ivPostImage);
         } else {
-            Log.d("PostAdapter", "Image URL is null or empty, using placeholder");
             holder.ivPostImage.setImageResource(android.R.drawable.ic_menu_report_image);
         }
 
@@ -161,7 +143,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
             Intent intent = new Intent(v.getContext(), PostDetailActivity.class);
             intent.putExtra("postId", post.getPostId());
-            intent.putExtra("imageUrl", post.getImageUrl());
+            intent.putExtra("imageUrl", post.getFirstImageUrl());
             intent.putExtra("mushroomType", post.getMushroomType());
             intent.putExtra("userId", post.getUserId());
             intent.putExtra("username", post.getUsername());
@@ -231,10 +213,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         .get()
                         .addOnSuccessListener(doc -> {
                             if (doc.exists() && "upvote".equals(doc.getString("type"))) {
-
                                 doc.getReference().delete();
                             } else {
-
                                 doc.getReference().set(new Vote("upvote", System.currentTimeMillis()));
                             }
                         });
@@ -248,7 +228,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         .get()
                         .addOnSuccessListener(doc -> {
                             if (doc.exists() && "downvote".equals(doc.getString("type"))) {
-
                                 doc.getReference().delete();
                             } else {
                                 doc.getReference().set(new Vote("downvote", System.currentTimeMillis()));
@@ -286,7 +265,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         holder.tvEdibility.setBackground(bg);
         holder.tvEdibility.setTextColor(context.getResources().getColor(android.R.color.white));
-
     }
 
     @Override
@@ -305,7 +283,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             this.timestamp = timestamp;
         }
     }
-
 
     private void deletePost(String postId, int position) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -331,7 +308,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         ImageView ivUpIcon, ivDownIcon;
         ImageView imageVerifiedBadge;
 
-
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDetailUser = itemView.findViewById(R.id.tvDetailUser);
@@ -347,8 +323,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             ivDownIcon = itemView.findViewById(R.id.ivDownIcon);
             tvEdibility = itemView.findViewById(R.id.tvEdibility);
             imageVerifiedBadge = itemView.findViewById(R.id.imageVerifiedBadge);
-
-
         }
     }
 }

@@ -20,11 +20,11 @@ import java.util.List;
 public class MushroomImageAdapter extends RecyclerView.Adapter<MushroomImageAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> imageUrls;
+    private List<String> imageUrl;
 
-    public MushroomImageAdapter(Context context, List<String> imageUrls) {
+    public MushroomImageAdapter(Context context, List<String> imageUrl) {
         this.context = context;
-        this.imageUrls = imageUrls;
+        this.imageUrl = imageUrl;
 
 
     }
@@ -40,19 +40,19 @@ public class MushroomImageAdapter extends RecyclerView.Adapter<MushroomImageAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String url = imageUrls.get(position);
+        String url = imageUrl.get(position);
 
         Glide.with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .placeholder(R.drawable.ic_launcher_background) // add a placeholder drawable
+                .placeholder(R.drawable.ic_launcher_background)
                 .into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return imageUrls != null ? imageUrls.size() : 0;
+        return imageUrl != null ? imageUrl.size() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
