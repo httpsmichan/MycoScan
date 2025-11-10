@@ -25,6 +25,7 @@ import java.util.Locale;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
+    private static final String TAG = "PostAdapter";
     private Context context;
     private List<Post> postList;
 
@@ -110,15 +111,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         holder.tvMushroomType.setText(post.getMushroomType() != null ? post.getMushroomType() : "Unknown type");
 
-        // Debug logging to see what we're getting
         Object rawImageData = post.getImageUrl();
-        Log.d("PostAdapter", "Post ID: " + post.getPostId());
-        Log.d("PostAdapter", "Image data type: " + (rawImageData != null ? rawImageData.getClass().getName() : "null"));
-        Log.d("PostAdapter", "Image data value: " + rawImageData);
+        Log.d(TAG, "=== POST " + position + " IMAGE DEBUG ===");
+        Log.d(TAG, "Post ID: " + post.getPostId());
+        Log.d(TAG, "Image data type: " + (rawImageData != null ? rawImageData.getClass().getName() : "null"));
+        Log.d(TAG, "Image data value: " + rawImageData);
 
-        // Get the first image URL (works for both String and List)
+        int imageCount = post.getImageCount();
+        Log.d(TAG, "Image count: " + imageCount);
+
+        List<String> allUrls = post.getAllImageUrls();
+        Log.d(TAG, "All image URLs (" + allUrls.size() + "): " + allUrls);
+
+        // Get the first image URL
         String displayImageUrl = post.getFirstImageUrl();
-        Log.d("PostAdapter", "Display URL: " + displayImageUrl);
+        Log.d(TAG, "Display URL (first): " + displayImageUrl);
+        Log.d(TAG, "===============================");
 
         if (displayImageUrl != null && !displayImageUrl.isEmpty()) {
             Glide.with(holder.ivPostImage.getContext())
@@ -139,7 +147,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
 
         holder.itemView.setOnClickListener(v -> {
-            Log.d("PostAdapter", "Clicking post with ID: " + post.getPostId());
+            Log.d(TAG, "Clicking post with ID: " + post.getPostId());
 
             Intent intent = new Intent(v.getContext(), PostDetailActivity.class);
             intent.putExtra("postId", post.getPostId());
@@ -265,6 +273,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         holder.tvEdibility.setBackground(bg);
         holder.tvEdibility.setTextColor(context.getResources().getColor(android.R.color.white));
+
+        if (imageCount > 1) {
+            holder.tvImageCounter.setVisibility(View.VISIBLE);
+            holder.tvImageCounter.setText("1 / " + imageCount);
+            Log.d(TAG, "Showing counter: 1 / " + imageCount);
+        } else {
+            holder.tvImageCounter.setVisibility(View.GONE);
+            Log.d(TAG, "Hiding counter (imageCount = " + imageCount + ")");
+        }
     }
 
     @Override
@@ -291,9 +308,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 .addOnSuccessListener(aVoid -> {
                     postList.remove(position);
                     notifyItemRemoved(position);
-                    Log.d("PostAdapter", "Post deleted: " + postId);
+                    Log.d(TAG, "Post deleted: " + postId);
                 })
-                .addOnFailureListener(e -> Log.e("PostAdapter", "Error deleting post", e));
+                .addOnFailureListener(e -> Log.e(TAG, "Error deleting post", e));
     }
 
     private void reportPost(String postId) {
@@ -307,6 +324,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         ImageView ivPostImage, menuOptions, ivVerificationBadge, ivLocationIcon;
         ImageView ivUpIcon, ivDownIcon;
         ImageView imageVerifiedBadge;
+        TextView tvImageCounter;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -323,6 +341,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             ivDownIcon = itemView.findViewById(R.id.ivDownIcon);
             tvEdibility = itemView.findViewById(R.id.tvEdibility);
             imageVerifiedBadge = itemView.findViewById(R.id.imageVerifiedBadge);
+            tvImageCounter = itemView.findViewById(R.id.tvImageCounter);
         }
     }
 }

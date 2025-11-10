@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Post {
@@ -37,7 +38,7 @@ public class Post {
     public String getPostId() { return postId; }
     public String getMushroomType() { return mushroomType; }
     public String getDescription() { return description; }
-    public Object getImageUrl() { return imageUrl; } // Now returns Object
+    public Object getImageUrl() { return imageUrl; }
     public String getUserId() { return userId; }
     public String getUsername() { return username; }
     public double getLatitude() { return latitude; }
@@ -50,7 +51,7 @@ public class Post {
     public void setPostId(String postId) { this.postId = postId; }
     public void setMushroomType(String mushroomType) { this.mushroomType = mushroomType; }
     public void setDescription(String description) { this.description = description; }
-    public void setImageUrl(Object imageUrl) { this.imageUrl = imageUrl; } // Now accepts Object
+    public void setImageUrl(Object imageUrl) { this.imageUrl = imageUrl; }
     public void setUserId(String userId) { this.userId = userId; }
     public void setUsername(String username) { this.username = username; }
     public void setLatitude(double latitude) { this.latitude = latitude; }
@@ -60,19 +61,41 @@ public class Post {
     public void setLocation(String location) { this.location = location; }
     public void setCategory(String category) { this.category = category; }
 
-    // Helper method to get the SECOND image URL (index 1) as a String
     public String getFirstImageUrl() {
         if (imageUrl instanceof String) {
             return (String) imageUrl;
         } else if (imageUrl instanceof List) {
             List<?> urls = (List<?>) imageUrl;
-            // Try to get second image (index 1), fallback to first if only one exists
-            if (urls.size() > 1) {
-                return urls.get(1).toString(); // Get SECOND image
-            } else if (!urls.isEmpty()) {
-                return urls.get(0).toString(); // Fallback to first if only one image
+            if (!urls.isEmpty()) {
+                return urls.get(0).toString(); // Get FIRST image
             }
         }
         return null;
+    }
+
+    public List<String> getAllImageUrls() {
+        List<String> urls = new ArrayList<>();
+        if (imageUrl instanceof String) {
+            urls.add((String) imageUrl);
+        } else if (imageUrl instanceof List) {
+            for (Object obj : (List<?>) imageUrl) {
+                if (obj instanceof String) urls.add((String) obj);
+            }
+        }
+        return urls;
+    }
+
+    public int getImageCount() {
+        if (imageUrl == null) {
+            return 0;
+        }
+
+        if (imageUrl instanceof String) {
+            return 1;
+        } else if (imageUrl instanceof List) {
+            return ((List<?>) imageUrl).size();
+        }
+
+        return 0;
     }
 }

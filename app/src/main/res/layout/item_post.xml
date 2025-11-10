@@ -8,14 +8,12 @@
     android:layout_marginBottom="8dp"
     android:elevation="2dp">
 
-    <!-- Top row: username + timestamp on left, verified on right -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <!-- Left side: username and timestamp -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -66,7 +64,6 @@
             android:textColor="@color/black"
             android:visibility="gone" />
 
-        <!-- Right side: verified status -->
         <ImageView
             android:id="@+id/ivVerificationBadge"
             android:layout_width="24dp"
@@ -84,18 +81,39 @@
             android:padding="8dp" />
     </LinearLayout>
 
-    <!-- Post image -->
-    <ImageView
-        android:id="@+id/ivPostImage"
+    <!-- Post image with counter overlay -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:scaleType="centerCrop"
-        android:background="@drawable/top_image"
-        android:clipToOutline="true"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp">
 
-    <!-- Mushroom type + Edibility -->
+        <ImageView
+            android:id="@+id/ivPostImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="@drawable/top_image"
+            android:clipToOutline="true" />
+
+        <TextView
+            android:id="@+id/tvImageCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp"
+            android:background="#80000000"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="1 / 1"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -126,7 +144,6 @@
             android:layout_marginTop="4dp"/>
     </LinearLayout>
 
-    <!-- Location with icon -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -151,7 +168,6 @@
             android:layout_marginStart="6dp"/>
     </LinearLayout>
 
-    <!-- Up & Down buttons with icons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

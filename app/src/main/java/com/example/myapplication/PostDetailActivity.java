@@ -57,7 +57,7 @@ import android.graphics.drawable.GradientDrawable;
 
 public class PostDetailActivity extends BaseActivity {
 
-
+    private static final String TAG = "PostDetailActivity";
     private MapView miniMapView;
     private double latitude, longitude;
 
@@ -74,15 +74,14 @@ public class PostDetailActivity extends BaseActivity {
     private ImageView btnUpvote, btnDownvote;
     private TextView tvUpvotes, tvDownvotes;
     private FirebaseUser currentUser;
-    private ImageView ivMenuOptions, ivDetailImage;;
+    private ImageView ivMenuOptions, ivDetailImage;
 
     private String currentUserId;
     private String currentUserVote = null;
     private TextView commentsCount;
     private String imageUrl;
     private View rootView;
-
-
+    private TextView tvImageCounter;
 
     private List<String> bannedWords = new ArrayList<>();
 
@@ -133,7 +132,7 @@ public class PostDetailActivity extends BaseActivity {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("PostDetailActivity", "Error fetching username", e);
+                    Log.e(TAG, "Error fetching username", e);
                     listener.onUsernameFetched("Anonymous");
                 });
     }
@@ -152,6 +151,7 @@ public class PostDetailActivity extends BaseActivity {
 
         rootView = findViewById(android.R.id.content);
         ivDetailImage = findViewById(R.id.ivDetailImage);
+        tvImageCounter = findViewById(R.id.tvImageCounter);
 
         TextView tvBack = findViewById(R.id.tvBack);
         tvBack.setOnClickListener(v -> finish());
@@ -161,13 +161,14 @@ public class PostDetailActivity extends BaseActivity {
         ivDetailImage.setOnClickListener(v -> {
             Intent intent = new Intent(PostDetailActivity.this, ImageFullView.class);
             intent.putExtra("imageUrl", this.imageUrl);
+            intent.putExtra("postId", this.postId);
             startActivity(intent);
         });
 
         db = FirebaseFirestore.getInstance();
         currentUserId = FirebaseAuth.getInstance().getUid();
 
-        ImageButton  fab = findViewById(R.id.fab);
+        ImageButton fab = findViewById(R.id.fab);
 
         fab.setOnTouchListener(new View.OnTouchListener() {
             private float dX, dY;
@@ -231,7 +232,6 @@ public class PostDetailActivity extends BaseActivity {
 
                                         case MotionEvent.ACTION_UP:
                                             if (lastAction == MotionEvent.ACTION_DOWN) {
-
                                                 showNoteBottomSheet();
                                             } else {
                                                 float middle = screenWidth / 2f;
@@ -306,7 +306,6 @@ public class PostDetailActivity extends BaseActivity {
         TextView tvCorrected = findViewById(R.id.tvCorrected);
         TextView tvCorrectedCategory = findViewById(R.id.tvCorrectedCategory);
 
-
         tvDetailType.setText(mushroomType != null ? mushroomType : "Unknown Type");
         tvDetailDesc.setText(description != null ? description : "No description available");
         tvDetailUser.setText((username != null ? username : "Unknown"));
@@ -315,9 +314,32 @@ public class PostDetailActivity extends BaseActivity {
             Glide.with(this).load(imageUrl).into(ivDetailImage);
         }
 
+        // Fetch post details and image count
         db.collection("posts").document(postId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
+
+                        // Get image count
+                        Object imageUrlData = documentSnapshot.get("imageUrl");
+                        int imageCount = 0;
+
+                        if (imageUrlData instanceof String) {
+                            imageCount = 1;
+                        } else if (imageUrlData instanceof List) {
+                            imageCount = ((List<?>) imageUrlData).size();
+                        }
+
+                        Log.d(TAG, "Image count from Firestore: " + imageCount);
+
+                        // Show/hide counter
+                        if (imageCount > 1) {
+                            tvImageCounter.setVisibility(View.VISIBLE);
+                            tvImageCounter.setText("1 / " + imageCount);
+                            Log.d(TAG, "Showing image counter: 1 / " + imageCount);
+                        } else {
+                            tvImageCounter.setVisibility(View.GONE);
+                            Log.d(TAG, "Hiding image counter (only " + imageCount + " image)");
+                        }
 
                         String postDescription = documentSnapshot.getString("description");
                         tvDetailDesc.setText(postDescription != null && !postDescription.isEmpty()
@@ -390,65 +412,64 @@ public class PostDetailActivity extends BaseActivity {
                         } else {
                             tvVerified.setTextColor(getResources().getColor(android.R.color.darker_gray));
                         }
-                    }
 
-                    String verifiedStatus = documentSnapshot.getString("verified");
-                    if ("Unreliable".equalsIgnoreCase(verifiedStatus)) {
-                        correctedContainer.setVisibility(View.VISIBLE);
+                        String verifiedStatus = documentSnapshot.getString("verified");
+                        if ("Unreliable".equalsIgnoreCase(verifiedStatus)) {
+                            correctedContainer.setVisibility(View.VISIBLE);
 
-                        String verifiedBy = documentSnapshot.getString("verified_by");
-                        String correction = documentSnapshot.getString("correction");
-                        String correctCategory = documentSnapshot.getString("correct_category");
+                            String verifiedBy = documentSnapshot.getString("verified_by");
+                            String correction = documentSnapshot.getString("correction");
+                            String correctCategory = documentSnapshot.getString("correct_category");
 
-                        tvVerifiedBy.setText(verifiedBy != null ? verifiedBy : "Unknown Admin");
-                        tvCorrected.setText(correction != null ? correction : "No correction provided");
-                        tvCorrectedCategory.setText(
-                                correctCategory != null ? correctCategory : "Unknown"
-                        );
+                            tvVerifiedBy.setText(verifiedBy != null ? verifiedBy : "Unknown Admin");
+                            tvCorrected.setText(correction != null ? correction : "No correction provided");
+                            tvCorrectedCategory.setText(
+                                    correctCategory != null ? correctCategory : "Unknown"
+                            );
 
-                        GradientDrawable bg = new GradientDrawable();
-                        bg.setCornerRadius(5 * getResources().getDisplayMetrics().density);
+                            GradientDrawable correctedBg = new GradientDrawable();
+                            correctedBg.setCornerRadius(5 * getResources().getDisplayMetrics().density);
 
-                        if (correctCategory != null) {
-                            switch (correctCategory.toLowerCase()) {
-                                case "edible":
-                                    bg.setColor(getResources().getColor(android.R.color.holo_green_light));
-                                    tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
-                                    break;
-                                case "poisonous":
-                                    bg.setColor(getResources().getColor(android.R.color.holo_red_light));
-                                    tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
-                                    break;
-                                case "inedible":
-                                case "inedible (non-toxic)":
-                                    bg.setColor(0xFFFFA500);
-                                    tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
-                                    break;
-                                case "medicinal":
-                                    bg.setColor(getResources().getColor(android.R.color.holo_blue_light));
-                                    tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
-                                    break;
-                                default:
-                                    bg.setColor(getResources().getColor(android.R.color.darker_gray));
-                                    tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
-                                    break;
+                            if (correctCategory != null) {
+                                switch (correctCategory.toLowerCase()) {
+                                    case "edible":
+                                        correctedBg.setColor(getResources().getColor(android.R.color.holo_green_light));
+                                        tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
+                                        break;
+                                    case "poisonous":
+                                        correctedBg.setColor(getResources().getColor(android.R.color.holo_red_light));
+                                        tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
+                                        break;
+                                    case "inedible":
+                                    case "inedible (non-toxic)":
+                                        correctedBg.setColor(0xFFFFA500);
+                                        tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
+                                        break;
+                                    case "medicinal":
+                                        correctedBg.setColor(getResources().getColor(android.R.color.holo_blue_light));
+                                        tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
+                                        break;
+                                    default:
+                                        correctedBg.setColor(getResources().getColor(android.R.color.darker_gray));
+                                        tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
+                                        break;
+                                }
+                            } else {
+                                correctedBg.setColor(getResources().getColor(android.R.color.darker_gray));
+                                tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
                             }
-                        } else {
-                            bg.setColor(getResources().getColor(android.R.color.darker_gray));
-                            tvCorrectedCategory.setTextColor(getResources().getColor(android.R.color.white));
-                        }
 
-                        tvCorrectedCategory.setBackground(bg);
-                        imageVerifiedBadge.setVisibility(View.VISIBLE);
-                    } else {
-                        correctedContainer.setVisibility(View.GONE);
+                            tvCorrectedCategory.setBackground(correctedBg);
+                            imageVerifiedBadge.setVisibility(View.VISIBLE);
+                        } else {
+                            correctedContainer.setVisibility(View.GONE);
+                        }
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("PostDetailActivity", "Error fetching post details", e);
+                    Log.e(TAG, "Error fetching post details", e);
                     showCustomToast("Failed to load post details");
                 });
-
 
         db.collection("posts").document(postId).get()
                 .addOnSuccessListener(doc -> {
@@ -458,7 +479,7 @@ public class PostDetailActivity extends BaseActivity {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("PostDetailActivity", "Error fetching post author", e);
+                    Log.e(TAG, "Error fetching post author", e);
                 });
 
         loadBannedWords();
@@ -576,13 +597,12 @@ public class PostDetailActivity extends BaseActivity {
                 .add(noteData)
                 .addOnSuccessListener(docRef -> {
                     showCustomToast("Note saved!");
-                    Log.d("PostDetailActivity", "Note saved with ID: " + docRef.getId());
+                    Log.d(TAG, "Note saved with ID: " + docRef.getId());
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("PostDetailActivity", "Failed to save note", e);
+                    Log.e(TAG, "Failed to save note", e);
                     showCustomToast("Failed to save note");
                 });
-
     }
 
     private void setupMenuOptions() {
@@ -629,13 +649,10 @@ public class PostDetailActivity extends BaseActivity {
         toast.show();
     }
 
-
     private boolean isPostOwnedByCurrentUser() {
-
         if (postAuthorId != null && currentUserId != null) {
             return postAuthorId.equals(currentUserId);
         }
-
         return false;
     }
 
@@ -661,10 +678,9 @@ public class PostDetailActivity extends BaseActivity {
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("PostDetailActivity", "Error deleting post", e);
+                    Log.e(TAG, "Error deleting post", e);
                     showCustomToast("Failed to delete post");
                 });
-
     }
 
     private void showReportDialog() {
@@ -705,10 +721,9 @@ public class PostDetailActivity extends BaseActivity {
                     showCustomToast("Report submitted successfully");
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("PostDetailActivity", "Error submitting report", e);
+                    Log.e(TAG, "Error submitting report", e);
                     showCustomToast("Failed to submit report");
                 });
-
     }
 
     private String censorIfNeeded(String input) {
@@ -790,7 +805,6 @@ public class PostDetailActivity extends BaseActivity {
                     })
                     .addOnFailureListener(e ->
                             showCustomToast("Failed to vote")
-
                     );
         }
     }
@@ -811,7 +825,6 @@ public class PostDetailActivity extends BaseActivity {
             btnDownvote.setColorFilter(unselected);
         }
     }
-
 
     private void setupMiniMap() {
         if (rootView == null || isFinishing()) return;
@@ -835,7 +848,7 @@ public class PostDetailActivity extends BaseActivity {
                 final String markerImageUrl = this.imageUrl;
 
                 if (markerImageUrl != null && !markerImageUrl.isEmpty()) {
-                    Log.d("PostDetailActivity", "Loading marker image: " + markerImageUrl);
+                    Log.d(TAG, "Loading marker image: " + markerImageUrl);
 
                     Glide.with(this)
                             .asBitmap()
@@ -845,30 +858,24 @@ public class PostDetailActivity extends BaseActivity {
                                 @Override
                                 public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                                     try {
-
                                         int size = (int) (30 * getResources().getDisplayMetrics().density);
                                         Bitmap scaledBitmap = Bitmap.createScaledBitmap(resource, size, size, true);
-
                                         Bitmap circularBitmap = createCircularBitmap(scaledBitmap);
-
                                         marker.setIcon(new android.graphics.drawable.BitmapDrawable(getResources(), circularBitmap));
                                         miniMapView.invalidate();
-
-                                        Log.d("PostDetailActivity", "Custom marker loaded successfully");
+                                        Log.d(TAG, "Custom marker loaded successfully");
                                     } catch (Exception e) {
-                                        Log.e("PostDetailActivity", "Error creating custom marker", e);
+                                        Log.e(TAG, "Error creating custom marker", e);
                                     }
                                 }
 
                                 @Override
                                 public void onLoadCleared(@Nullable android.graphics.drawable.Drawable placeholder) {
-
                                 }
 
                                 @Override
                                 public void onLoadFailed(@Nullable android.graphics.drawable.Drawable errorDrawable) {
-                                    Log.e("PostDetailActivity", "Failed to load marker image: " + markerImageUrl);
-
+                                    Log.e(TAG, "Failed to load marker image: " + markerImageUrl);
                                 }
                             });
                 }
@@ -882,7 +889,7 @@ public class PostDetailActivity extends BaseActivity {
             }
 
         } catch (Exception e) {
-            Log.e("PostDetailActivity", "Error setting up mini map", e);
+            Log.e(TAG, "Error setting up mini map", e);
         }
     }
 
@@ -935,7 +942,7 @@ public class PostDetailActivity extends BaseActivity {
                 .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
                 .addSnapshotListener((QuerySnapshot snapshot, FirebaseFirestoreException e) -> {
                     if (e != null) {
-                        Log.e("PostDetailActivity", "Error listening to comments", e);
+                        Log.e(TAG, "Error listening to comments", e);
                         return;
                     }
 
@@ -946,7 +953,7 @@ public class PostDetailActivity extends BaseActivity {
                                 Comment comment = doc.toObject(Comment.class);
                                 commentList.add(comment);
                             } catch (Exception ex) {
-                                Log.e("PostDetailActivity", "Error parsing comment", ex);
+                                Log.e(TAG, "Error parsing comment", ex);
                             }
                         }
                         commentAdapter.notifyDataSetChanged();
@@ -959,7 +966,7 @@ public class PostDetailActivity extends BaseActivity {
                 .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
                 .addSnapshotListener((QuerySnapshot snapshot, FirebaseFirestoreException e) -> {
                     if (e != null) {
-                        Log.e("PostDetailActivity", "Error listening to comments", e);
+                        Log.e(TAG, "Error listening to comments", e);
                         return;
                     }
 
@@ -974,7 +981,7 @@ public class PostDetailActivity extends BaseActivity {
                                 Comment comment = doc.toObject(Comment.class);
                                 commentList.add(comment);
                             } catch (Exception ex) {
-                                Log.e("PostDetailActivity", "Error parsing comment", ex);
+                                Log.e(TAG, "Error parsing comment", ex);
                             }
                         }
                         commentAdapter.notifyDataSetChanged();
@@ -982,7 +989,6 @@ public class PostDetailActivity extends BaseActivity {
 
                     commentsCount.setText("(" + commentCount + ")");
                 });
-
 
         btnPostComment.setOnClickListener(v -> postComment());
     }
@@ -1013,10 +1019,10 @@ public class PostDetailActivity extends BaseActivity {
                     .addOnSuccessListener(documentReference -> {
                         etComment.setText("");
                         btnPostComment.setEnabled(true);
-                        Log.d("PostDetailActivity", "Comment posted successfully");
+                        Log.d(TAG, "Comment posted successfully");
                     })
                     .addOnFailureListener(e -> {
-                        Log.e("PostDetailActivity", "Error posting comment", e);
+                        Log.e(TAG, "Error posting comment", e);
                         showCustomToast("Failed to post comment");
                         btnPostComment.setEnabled(true);
                     });
@@ -1132,6 +1138,3 @@ class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHold
         }
     }
 }
-
-
-

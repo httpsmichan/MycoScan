@@ -31,6 +31,9 @@
         android:theme="@style/Theme.MyApplication"
         tools:replace="android:fullBackupContent">
         <activity
+            android:name=".ImagePagerAdapter"
+            android:exported="false" />
+        <activity
             android:name=".ImageAdapter"
             android:exported="false" />
         <activity
