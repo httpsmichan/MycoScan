@@ -67,7 +67,7 @@ public class UploadFragment extends Fragment {
 
     private static final String TAG = "UploadFragment";
     private static final int MAX_IMAGES = 10;
-    private static final int MIN_IMAGES = 4;
+    private static final int MIN_IMAGES = 5;
     private TFLiteHelper tfliteHelper;
 
     private EditText etMushroomType, etDescription;
@@ -343,9 +343,6 @@ public class UploadFragment extends Fragment {
                         showCustomToast("Uploading " + imageUris.size() + " image(s)...");
                         uploadMultipleImages();
                     });
-
-                    showCustomToast("Uploading " + imageUris.size() + " image(s)...");
-                    uploadMultipleImages();
                 });
 
             } catch (Exception e) {

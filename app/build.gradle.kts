@@ -92,6 +92,7 @@ dependencies {
     implementation(libs.glide.okhttp3)
 
     implementation(libs.mpandroidchart)
+    implementation("com.google.mlkit:object-detection:17.0.0")
 
 }
 

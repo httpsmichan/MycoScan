@@ -198,28 +198,35 @@ public class FavoritesFragment extends Fragment {
             if (imageUri != null) {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), imageUri);
+
+                    // Direct classification - no cropping
                     ClassificationResult result = tfliteHelper.classify(bitmap);
-
-                    Log.d(TAG, "Predicted: " + result.label + ", Confidence: " + result.confidence);
-
-                    logScanToFirestore(result.label, result.confidence);
-
-                    if (result.label.toLowerCase().contains("unknown")) {
-                        showCustomToast("This object is not a mushroom species");
-                    } else {
-                        Intent intent = new Intent(getContext(), ResultActivity.class);
-                        intent.putExtra("photoUri", imageUri.toString());
-                        intent.putExtra("prediction", result.label);
-                        intent.putExtra("confidence", result.confidence);
-                        intent.putExtra("confidencePercentage", result.confidence * 100);
-                        startActivity(intent);
-                    }
+                    handleClassificationResult(result, imageUri);
 
                 } catch (IOException e) {
                     e.printStackTrace();
                     showCustomToast("Failed to load image");
                 }
             }
+        }
+    }
+
+    /**
+     * Helper method to handle classification results from gallery
+     */
+    private void handleClassificationResult(ClassificationResult result, Uri imageUri) {
+        Log.d(TAG, "Predicted: " + result.label + ", Confidence: " + result.confidence);
+        logScanToFirestore(result.label, result.confidence);
+
+        if (result.label.toLowerCase().contains("unknown")) {
+            showCustomToast("This object is not a mushroom species");
+        } else {
+            Intent intent = new Intent(getContext(), ResultActivity.class);
+            intent.putExtra("photoUri", imageUri.toString());
+            intent.putExtra("prediction", result.label);
+            intent.putExtra("confidence", result.confidence);
+            intent.putExtra("confidencePercentage", result.confidence * 100);
+            startActivity(intent);
         }
     }
 
@@ -267,6 +274,9 @@ public class FavoritesFragment extends Fragment {
     /**
      * SCAN MODE: Take photo, predict, but don't save to gallery
      */
+    /**
+     * SCAN MODE: Take photo, predict, but don't save to gallery
+     */
     private void takeScanPhoto() {
         File tempFile = new File(requireContext().getCacheDir(), "temp_scan_" + System.currentTimeMillis() + ".jpg");
 
@@ -288,25 +298,9 @@ public class FavoritesFragment extends Fragment {
                             Bitmap bitmap = BitmapFactory.decodeStream(fis);
                             fis.close();
 
+                            // Direct classification
                             ClassificationResult result = tfliteHelper.classify(bitmap);
-                            Log.d(TAG, "Scan - Predicted: " + result.label + ", Confidence: " + result.confidence);
-
-                            logScanToFirestore(result.label, result.confidence);
-
-                            tempFile.delete();
-
-                            if (result.label.toLowerCase().contains("unknown")) {
-                                showCustomToast("This object is not a mushroom species");
-                            } else {
-                                String tempPath = saveBitmapToCache(bitmap);
-
-                                Intent intent = new Intent(getContext(), ResultActivity.class);
-                                intent.putExtra("photoUri", "file://" + tempPath);
-                                intent.putExtra("prediction", result.label);
-                                intent.putExtra("confidence", result.confidence);
-                                intent.putExtra("confidencePercentage", result.confidence * 100);
-                                startActivity(intent);
-                            }
+                            handleScanResult(result, bitmap, tempFile);
 
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -320,6 +314,33 @@ public class FavoritesFragment extends Fragment {
     /**
      * CAPTURE MODE: Save photo to gallery without prediction
      */
+    /**
+     * Helper method to handle classification results from camera scan
+     */
+    private void handleScanResult(ClassificationResult result, Bitmap bitmap, File tempFile) {
+        Log.d(TAG, "Scan - Predicted: " + result.label + ", Confidence: " + result.confidence);
+        logScanToFirestore(result.label, result.confidence);
+
+        tempFile.delete();
+
+        if (result.label.toLowerCase().contains("unknown")) {
+            showCustomToast("This object is unknown");
+        } else {
+            try {
+                String tempPath = saveBitmapToCache(bitmap);
+                Intent intent = new Intent(getContext(), ResultActivity.class);
+                intent.putExtra("photoUri", "file://" + tempPath);
+                intent.putExtra("prediction", result.label);
+                intent.putExtra("confidence", result.confidence);
+                intent.putExtra("confidencePercentage", result.confidence * 100);
+                startActivity(intent);
+            } catch (IOException e) {
+                e.printStackTrace();
+                showCustomToast("Failed to process scan");
+            }
+        }
+    }
+
     private void takeCapturePhoto() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String fileName = "IMG_" + timeStamp + ".jpg";

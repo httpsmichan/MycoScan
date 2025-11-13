@@ -60,17 +60,16 @@
             android:id="@+id/tvImageCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
+            android:layout_gravity="top | start"
+            android:layout_margin="8dp"
             android:background="#80000000"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
             android:text="1 / 1"
-            android:textColor="@android:color/white"
-            android:textSize="10sp"
-            android:visibility="gone" />
+            android:textColor="@color/white"
+            android:textSize="10sp" />
 
     </FrameLayout>
 

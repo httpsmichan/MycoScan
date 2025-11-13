@@ -146,6 +146,7 @@ public class PostDetailActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Configuration.getInstance().load(this, getPreferences(MODE_PRIVATE));
         Configuration.getInstance().setUserAgentValue(getPackageName());
         setContentView(R.layout.activity_post_detail);
 
@@ -310,9 +311,8 @@ public class PostDetailActivity extends BaseActivity {
         tvDetailDesc.setText(description != null ? description : "No description available");
         tvDetailUser.setText((username != null ? username : "Unknown"));
 
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Glide.with(this).load(imageUrl).into(ivDetailImage);
-        }
+        // Initial image loading will be done after fetching from Firestore
+// to ensure we have the correct URL from the array
 
         // Fetch post details and image count
         db.collection("posts").document(postId).get()
@@ -321,6 +321,17 @@ public class PostDetailActivity extends BaseActivity {
 
                         // Get image count
                         Object imageUrlData = documentSnapshot.get("imageUrl");
+                        if (imageUrlData instanceof List) {
+                            List<?> imageList = (List<?>) imageUrlData;
+                            if (!imageList.isEmpty() && imageList.get(0) instanceof String) {
+                                imageUrl = (String) imageList.get(0);
+
+                                if (ivDetailImage != null) {
+                                    Glide.with(PostDetailActivity.this).load(imageUrl).into(ivDetailImage);
+                                }
+                            }
+                        }
+
                         int imageCount = 0;
 
                         if (imageUrlData instanceof String) {
@@ -331,7 +342,6 @@ public class PostDetailActivity extends BaseActivity {
 
                         Log.d(TAG, "Image count from Firestore: " + imageCount);
 
-                        // Show/hide counter
                         if (imageCount > 1) {
                             tvImageCounter.setVisibility(View.VISIBLE);
                             tvImageCounter.setText("1 / " + imageCount);
@@ -828,7 +838,14 @@ public class PostDetailActivity extends BaseActivity {
 
     private void setupMiniMap() {
         if (rootView == null || isFinishing()) return;
+
+        if (miniMapView == null) {
+            Log.e(TAG, "miniMapView is null!");
+            return;
+        }
+
         try {
+            miniMapView.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK);
             miniMapView.setMultiTouchControls(false);
             miniMapView.setClickable(false);
             miniMapView.getController().setZoom(15.0);

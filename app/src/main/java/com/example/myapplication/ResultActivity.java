@@ -35,7 +35,7 @@ public class ResultActivity extends AppCompatActivity {
     private String postAuthorId;
     private String currentUserId;
     private View rootView;
-    private TextView title2, unknown, reminder, headerDisclaimer, shareCommunity;
+    private TextView title2, unknown, reminder, headerDisclaimer;
     private LinearLayout charLayout;
 
     private TextView mushroomEdibility;
@@ -112,7 +112,6 @@ public class ResultActivity extends AppCompatActivity {
         unknown = findViewById(R.id.unknown);
         reminder = findViewById(R.id.reminder);
         headerDisclaimer = findViewById(R.id.headerDisclaimer);
-        shareCommunity = findViewById(R.id.shareCommunity);
         rootView = findViewById(android.R.id.content);
 
         db = FirebaseFirestore.getInstance();
@@ -177,69 +176,6 @@ public class ResultActivity extends AppCompatActivity {
                         return false;
                 }
             }
-        });
-
-        shareCommunity.setOnClickListener(v -> {
-            String mushroomName = mushroomNameText.getText().toString();
-            String photoUriString = getIntent().getStringExtra("photoUri");
-
-            double latitude = getIntent().getDoubleExtra("latitude", 0.0);
-            double longitude = getIntent().getDoubleExtra("longitude", 0.0);
-
-            // GET CONFIDENCE AND PREDICTION FROM INTENT
-            float confidence = getIntent().getFloatExtra("confidence", 0f);
-            String prediction = getIntent().getStringExtra("prediction");
-            String cleanedPrediction = prediction != null ? prediction.replaceFirst("^\\d+\\s+", "").trim() : "";
-
-            Log.d(TAG, "===== SHARE TO COMMUNITY =====");
-            Log.d(TAG, "Confidence from intent: " + confidence);
-            Log.d(TAG, "Prediction: " + prediction);
-            Log.d(TAG, "Cleaned prediction: " + cleanedPrediction);
-            Log.d(TAG, "==============================");
-
-            String edibility = "Unknown / Needs ID";
-            if (mushroomEdibility.getText() != null) {
-                String edibilityText = mushroomEdibility.getText().toString();
-                if (edibilityText.startsWith("Edible with Caution")) {
-                    edibility = "Edible";
-                } else if (edibilityText.startsWith("Edible")) {
-                    edibility = "Edible";
-                } else if (edibilityText.startsWith("Poisonous")) {
-                    edibility = "Poisonous";
-                } else if (edibilityText.startsWith("Inedible (Medicinal)")) {
-                    edibility = "Medicinal";
-                } else if (edibilityText.contains("Unknown")) {
-                    edibility = "Unknown / Needs ID";
-                }
-            }
-
-            String description = "";
-            if (resultDescription.getText() != null) {
-                String descText = resultDescription.getText().toString();
-                if (descText.startsWith("Description: ")) {
-                    description = descText.substring(13);
-                } else {
-                    description = descText;
-                }
-            }
-
-            Intent intent = new Intent(ResultActivity.this, TabbedActivity.class);
-            intent.putExtra("openUploadTab", true);
-            intent.putExtra("mushroomType", mushroomName);
-            intent.putExtra("category", edibility);
-            intent.putExtra("description", description);
-            intent.putExtra("photoUri", photoUriString);
-            intent.putExtra("latitude", latitude);
-            intent.putExtra("longitude", longitude);
-
-            // CRITICAL: Pass confidence and prediction for verification
-            intent.putExtra("confidence", confidence);
-            intent.putExtra("detectedClass", cleanedPrediction);
-
-            Log.d(TAG, "Passing to TabbedActivity - confidence: " + confidence + ", class: " + cleanedPrediction);
-
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
         });
 
         String photoUriString = getIntent().getStringExtra("photoUri");
@@ -518,7 +454,6 @@ public class ResultActivity extends AppCompatActivity {
         mushroomAccuracyText.setVisibility(View.GONE);
 
         charLayout.setVisibility(View.GONE);
-        shareCommunity.setVisibility(View.GONE);
 
         findViewById(R.id.noInformationLayout).setVisibility(View.VISIBLE);
         resultImage.setVisibility(View.VISIBLE);

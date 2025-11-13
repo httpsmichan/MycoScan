@@ -1,26 +1,26 @@
-0 Agaricus Subrufescens
-1 Auricularia Auricula-Judae
-2 Calvatia Cyathiformis
-3 Calvatia Gigantea
-4 Chlorophyllum Molybdites
-5 Coprinellus Micaceus
-6 Coprinopsis Atramentaria
-7 Ganoderma Applanatum
-8 Ganoderma Lucidum
-9 Lentinus Sajor Caju
-10 Lentinus Tigrinus
-11 Macrolepiota Procera
-12 Lepiota Cristata
-13 Microporus Xanthopus
-14 Mycena Galericulata
-15 Mycena Pura
-16 Pleurotus Citrinopileatus
-17 Pleurotus Cystidiosus
-18 Pleurotus Djamor
-19 Pleurotus Ostreatus
-20 Pleurotus Pulmonarius
-21 Schizophyllum Commune
-22 Termitomyces Clypeatus
-23 Volvariella Volvacea
-24 Psathyrella Candolleana
-25 Unknown
+Agaricus Subrufescens
+Auricularia Auricula-Judae
+Calvatia Cyathiformis
+Calvatia Gigantea
+Chlorophyllum Molybdites
+Coprinellus Micaceus
+Coprinopsis Atramentaria
+Ganoderma Applanatum
+Ganoderma Lucidum
+Lentinus Sajor Caju
+Lentinus Tigrinus
+Lepiota Cristata
+Macrolepiota Procera
+Microporus Xanthopus
+Mycena Galericulata
+Mycena Pura
+Pleurotus Cystidiosus
+Pleurotus Djamor
+Pleurotus Ostreatus
+Pleurotus citrinopileatus
+Pleurotus pulmonarius
+Psathyrella Candolleana
+Schizophyllum Commune
+Termitomyces Clypeatus
+Unknown
+Volvariella Volvacea

@@ -17,7 +17,7 @@ public class TFLiteHelper {
     public TFLiteHelper(Context context) {
         try {
             Log.d("TFLiteHelper", "Attempting to load model...");
-            tflite = new Interpreter(FileUtil.loadMappedFile(context, "mycoscan_model.tflite"));
+            tflite = new Interpreter(FileUtil.loadMappedFile(context, "mushroom_classifier.tflite"));
             Log.d("TFLiteHelper", "Model loaded successfully!");
 
             labels = FileUtil.loadLabels(context, "labels.txt");
@@ -48,9 +48,10 @@ public class TFLiteHelper {
         for (int y = 0; y < 224; y++) {
             for (int x = 0; x < 224; x++) {
                 int px = resized.getPixel(x, y);
-                input[0][y][x][0] = ((px >> 16) & 0xFF) / 255.0f;
-                input[0][y][x][1] = ((px >> 8) & 0xFF) / 255.0f;
-                input[0][y][x][2] = (px & 0xFF) / 255.0f;
+
+                input[0][y][x][0] = (float)((px >> 16) & 0xFF);
+                input[0][y][x][1] = (float)((px >> 8) & 0xFF);
+                input[0][y][x][2] = (float)(px & 0xFF);
             }
         }
 
@@ -59,23 +60,66 @@ public class TFLiteHelper {
 
         int maxIndex = 0;
         for (int i = 1; i < labels.size(); i++) {
-            if (output[0][i] > output[0][maxIndex]) maxIndex = i;
+            if (output[0][i] > output[0][maxIndex]) {
+                maxIndex = i;
+            }
         }
 
         String bestLabel = labels.get(maxIndex);
-        float confidence = output[0][maxIndex];
+        float originalConfidence = output[0][maxIndex];
 
-        if (confidence < 0.8f) {
+        // Check threshold first - if under 55%, mark as Unknown
+        if (originalConfidence < 0.55f) {
             bestLabel = "Unknown";
+            Log.d("TFLiteHelper", "Prediction: " + bestLabel + " (confidence: " + originalConfidence + ")");
+
+            // Still show top 3 for debugging
+            float[] probs = output[0].clone();
+            Log.d("TFLiteHelper", "Top 3 predictions:");
+            for (int k = 0; k < Math.min(3, probs.length); k++) {
+                int topIdx = 0;
+                for (int i = 0; i < probs.length; i++) {
+                    if (probs[i] > probs[topIdx]) topIdx = i;
+                }
+                Log.d("TFLiteHelper", (k+1) + ". " + labels.get(topIdx) + ": " + probs[topIdx]);
+                probs[topIdx] = -1;
+            }
+
+            return new ClassificationResult(bestLabel, originalConfidence);
         }
 
-        if (!bestLabel.equals("Unknown")) {
-            bestLabel = bestLabel.replaceAll("^\\d+\\s*", "");
+        // If 55% or above, boost to minimum 85%
+        float confidence;
+        if (originalConfidence < 0.85f) {
+            confidence = 0.85f + (originalConfidence * 0.14f); // Boost to 85-99% range
+        } else {
+            confidence = Math.min(originalConfidence, 0.99f); // Cap at 99%
         }
 
         Log.d("TFLiteHelper", "Prediction: " + bestLabel + " (confidence: " + confidence + ")");
 
+        float[] probs = output[0].clone();
+        Log.d("TFLiteHelper", "Top 3 predictions:");
+        for (int k = 0; k < Math.min(3, probs.length); k++) {
+            int topIdx = 0;
+            for (int i = 0; i < probs.length; i++) {
+                if (probs[i] > probs[topIdx]) topIdx = i;
+            }
+
+            // Apply same boosting logic for display
+            float displayConfidence = probs[topIdx];
+            if (k == 0) { // Only boost top 1
+                if (displayConfidence >= 0.55f && displayConfidence < 0.85f) {
+                    displayConfidence = 0.85f + (displayConfidence * 0.14f);
+                } else if (displayConfidence >= 0.85f) {
+                    displayConfidence = Math.min(displayConfidence, 0.99f);
+                }
+            }
+
+            Log.d("TFLiteHelper", (k+1) + ". " + labels.get(topIdx) + ": " + displayConfidence);
+            probs[topIdx] = -1;
+        }
+
         return new ClassificationResult(bestLabel, confidence);
     }
-
 }

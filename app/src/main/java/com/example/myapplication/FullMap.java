@@ -95,7 +95,19 @@ public class FullMap extends AppCompatActivity {
                     if (documentSnapshot.exists()) {
                         Double lat = documentSnapshot.getDouble("latitude");
                         Double lng = documentSnapshot.getDouble("longitude");
-                        String imageUrl = documentSnapshot.getString("imageUrl");
+
+                        // Handle imageUrl as array
+                        String imageUrl = null;
+                        Object imageUrlData = documentSnapshot.get("imageUrl");
+
+                        if (imageUrlData instanceof java.util.List) {
+                            java.util.List<?> imageList = (java.util.List<?>) imageUrlData;
+                            if (!imageList.isEmpty() && imageList.get(0) instanceof String) {
+                                imageUrl = (String) imageList.get(0);
+                            }
+                        } else if (imageUrlData instanceof String) {
+                            imageUrl = (String) imageUrlData;
+                        }
 
                         if (lat != null && lng != null && imageUrl != null && !imageUrl.isEmpty()) {
                             GeoPoint point = new GeoPoint(lat, lng);
