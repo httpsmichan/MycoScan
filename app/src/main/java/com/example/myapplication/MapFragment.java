@@ -2,7 +2,9 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -191,6 +193,49 @@ public class MapFragment extends Fragment {
         });
     }
 
+    // Helper method to get first image URL from imageUrl field (array or string)
+    private String getFirstImageUrl(Object imageObj) {
+        if (imageObj instanceof String) {
+            return (String) imageObj;
+        } else if (imageObj instanceof List) {
+            List<?> imageList = (List<?>) imageObj;
+            if (!imageList.isEmpty() && imageList.get(0) instanceof String) {
+                return (String) imageList.get(0);
+            }
+        }
+        return null;
+    }
+
+    // Create a circular marker icon with image and border
+    private Bitmap createCircularMarkerWithBorder(Bitmap imageBitmap, int size) {
+        Bitmap output = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        // Draw white circle border
+        Paint borderPaint = new Paint();
+        borderPaint.setAntiAlias(true);
+        borderPaint.setColor(Color.WHITE);
+        borderPaint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(size / 2f, size / 2f, size / 2f, borderPaint);
+
+        // Draw image circle (slightly smaller to show border)
+        Paint imagePaint = new Paint();
+        imagePaint.setAntiAlias(true);
+
+        int imageSize = size - 8; // 4px border on each side
+        Bitmap scaledImage = Bitmap.createScaledBitmap(imageBitmap, imageSize, imageSize, true);
+
+        // Clip to circle
+        canvas.save();
+        android.graphics.Path clipPath = new android.graphics.Path();
+        clipPath.addCircle(size / 2f, size / 2f, imageSize / 2f, android.graphics.Path.Direction.CW);
+        canvas.clipPath(clipPath);
+        canvas.drawBitmap(scaledImage, (size - imageSize) / 2f, (size - imageSize) / 2f, imagePaint);
+        canvas.restore();
+
+        return output;
+    }
+
     private void applyFilters() {
         if (!isAdded() || mapView == null) return;
 
@@ -205,7 +250,9 @@ public class MapFragment extends Fragment {
             String type = doc.getString("mushroomType");
             String user = doc.getString("username");
             String category = doc.getString("category");
-            String imageUrl = doc.getString("imageUrl");
+            Object imageObj = doc.get("imageUrl");
+            String imageUrl = getFirstImageUrl(imageObj);
+
             String postId = doc.getId();
 
             if (!currentFilter.equals("All")) {
@@ -245,8 +292,8 @@ public class MapFragment extends Fragment {
                                                         @Nullable Transition<? super Bitmap> transition) {
                                 if (!isAdded() || mapView == null) return;
                                 int size = 70;
-                                Bitmap smallBitmap = Bitmap.createScaledBitmap(resource, size, size, false);
-                                marker.setIcon(new BitmapDrawable(requireContext().getResources(), smallBitmap));
+                                Bitmap circularMarker = createCircularMarkerWithBorder(resource, size);
+                                marker.setIcon(new BitmapDrawable(requireContext().getResources(), circularMarker));
                                 mapView.invalidate();
                             }
 
@@ -275,8 +322,12 @@ public class MapFragment extends Fragment {
         TextView location = sheetView.findViewById(R.id.postDetailLocation);
         TextView reportBtn = sheetView.findViewById(R.id.btnReportPost);
 
-        String imageUrl = doc.getString("imageUrl");
-        if (imageUrl != null && !imageUrl.isEmpty()) Glide.with(requireContext()).load(imageUrl).into(postImage);
+        Object imageObj = doc.get("imageUrl");
+        String imageUrl = getFirstImageUrl(imageObj);
+
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            Glide.with(requireContext()).load(imageUrl).into(postImage);
+        }
 
         mushroomType.setText(doc.getString("mushroomType"));
 
@@ -304,18 +355,10 @@ public class MapFragment extends Fragment {
         if (loc != null) location.setText("📍 " + loc);
 
         reportBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), ReportActivity.class);
-            intent.putExtra("postId", doc.getId());
-            startActivity(intent);
-            bottomSheet.dismiss();
-        });
-
-
-        bottomSheet.show();
-        reportBtn.setOnClickListener(v -> {
             reportPost(doc.getId());
         });
 
+        bottomSheet.show();
     }
 
     private void reportPost(String postId) {
