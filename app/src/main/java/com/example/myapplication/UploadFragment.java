@@ -159,7 +159,7 @@ public class UploadFragment extends Fragment {
 
         loadBannedWords();
 
-        String[] categories = {"Edible", "Poisonous", "Inedible (Non-toxic)", "Medicinal", "Unknown / Needs ID"};
+        String[] categories = {"Edible", "Poisonous", "Inedible (Non-toxic)", "Unknown / Needs ID"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories);
         spinnerCategory.setAdapter(adapter);
 
@@ -321,7 +321,7 @@ public class UploadFragment extends Fragment {
                         showCustomToast("AI Detected: " + bestResult.label +
                                 " (" + String.format("%.1f%%", bestResult.confidence * 100) + ")");
                     } else {
-                        showCustomToast("Unable to identify mushroom with confidence. Please specify manually.");
+                        showCustomToast("Uploading...");
                     }
                     fetchEdibility(bestResult.label, simplifiedEdibility -> {
 
@@ -618,7 +618,7 @@ public class UploadFragment extends Fragment {
             return;
         }
 
-        showCustomToast("Loading... This May Take a While");
+        showCustomToast("Loading... This may Take a While");
 
         com.google.android.gms.location.LocationRequest locationRequest =
                 com.google.android.gms.location.LocationRequest.create()

@@ -96,7 +96,7 @@ public class MapFragment extends Fragment {
         });
 
         filterInedible.setOnClickListener(v -> {
-            currentFilter = "Inedible";
+            currentFilter = "Inedible (Non-toxic)";
             updateFilterButtons();
             applyFilters();
         });
@@ -133,7 +133,7 @@ public class MapFragment extends Fragment {
             filterAll.setBackgroundColor(Color.parseColor("#4CAF50"));
         } else if (currentFilter.equals("Edible")) {
             filterEdible.setBackgroundColor(Color.parseColor("#4CAF50"));
-        } else if (currentFilter.equals("Inedible")) {
+        } else if (currentFilter.equals("Inedible (Non-toxic)")) {
             filterInedible.setBackgroundColor(Color.parseColor("#FF9800"));
         }else if (currentFilter.equals("Poisonous")) {
             filterPoisonous.setBackgroundColor(Color.parseColor("#F44336"));

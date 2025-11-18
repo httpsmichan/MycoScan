@@ -584,21 +584,6 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/shareCommunity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Share to Community"
-                android:textSize="12sp"
-                android:padding="10dp"
-                android:textColor="@android:color/black"
-                android:gravity="center"
-                android:background="@drawable/btn_fullmap_bg"
-                android:layout_gravity="top|start"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp"
-                android:elevation="1dp"/>
-
-            <TextView
                 android:id="@+id/reminder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
